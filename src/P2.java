@@ -1,4 +1,5 @@
 import java.io.PrintStream;
+import java.io.PrintWriter;
 
 /**
  * CS3114 Project 2 - DNA Trees
@@ -40,6 +41,7 @@ public class P2 {
 	
 	public static PrintStream out = System.out; // Project output, standard output
 	
+	
 	/*
 	 * On my honor:
 	 * 
@@ -74,5 +76,18 @@ public class P2 {
 	 */
 	public static void main(String[] args) {
 
+	}
+	
+	
+	public static class Error{
+		public static PrintStream out = P2.out; // Output for errors. Currently, use whatever P2 uses, but could be System.err
+		
+		public static void duplicateSequence(Sequence sequence){
+			out.println("ERROR: Sequence, \""+sequence.toString()+"\" already exists in DNA Tree");
+		}
+
+		public static void invalidSequence(Sequence sequence) {
+			out.println("ERROR: Invaid sequence, \""+sequence.toString()+"\"");
+		}
 	}
 }

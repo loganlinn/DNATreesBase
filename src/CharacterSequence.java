@@ -2,7 +2,7 @@ import java.util.NoSuchElementException;
 
 
 public class CharacterSequence implements Sequence{
-	private int position = 0;		// Stores the current position in the sequence to compare during insert
+	private int position = 0;			// Stores the index of the next unseen character in sequence
 	private final char[] characters;	// Sequence characters
 	
 	/**
@@ -22,7 +22,7 @@ public class CharacterSequence implements Sequence{
 		if(!hasNext()){
 			throw new NoSuchElementException();
 		}
-		return characters[position];
+		return characters[position-1];
 	}
 	
 	/**

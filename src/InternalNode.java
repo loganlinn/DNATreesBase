@@ -4,7 +4,7 @@
  * @author loganlinn
  *
  */
-public class InternalNode implements Node{
+public class InternalNode extends Node{
 	
 	private Node A = null;
 	private Node C = null;
@@ -28,9 +28,9 @@ public class InternalNode implements Node{
 				P2.out.println("Invalid sequence, "+existingSequence+". Contains character not in DNA alphabet.");
 			}
 			
+			fillEmptyChildren();
 			
-			
-			insert(newSequence);
+			insert(this, newSequence);
 			
 		}else{ // Existing sequence must be a prefix
 			// Assumes existingSequence != newSequence
@@ -38,8 +38,22 @@ public class InternalNode implements Node{
 		}
 	}
 	
-	private fillWithFlyweight(){
-		if(A == null)
+	private void fillEmptyChildren(){
+		if(A == null){
+			A = LeafNode.getEmptyLeafNode();
+		}
+		if(C == null){
+			C = LeafNode.getEmptyLeafNode();
+		}
+		if(G == null){
+			G = LeafNode.getEmptyLeafNode();
+		}
+		if(T == null){
+			T = LeafNode.getEmptyLeafNode();
+		}
+		if($ == null){
+			$ = LeafNode.getEmptyLeafNode();
+		}
 	}
 	
 	/**
@@ -50,7 +64,7 @@ public class InternalNode implements Node{
 	 * @param child
 	 * @return
 	 */
-	private boolean setChild(char sequenceChar, Node child){
+	public boolean setChild(char sequenceChar, Node child){
 		switch(sequenceChar){
 		case 'A':
 			A = child;
@@ -75,7 +89,7 @@ public class InternalNode implements Node{
 	 * @return
 	 * @throws Exception
 	 */
-	private Node getChild(char sequenceCharacter){
+	protected Node getChild(char sequenceCharacter){
 		switch(sequenceCharacter){
 		case 'A':
 			return A;
@@ -86,17 +100,27 @@ public class InternalNode implements Node{
 		case 'T':
 			return T;
 		}
-		return null;// Throw exception? Current no; minimize stack overhead in recursive operations 
+		return null;// This type of error should already be handled
+	}
+	
+	/**
+	 * Preorder traversal
+	 */
+	@Override
+	public void print(int level) {
+		// Visit self
+		indentedPrint(level, INTERNAL_NODE);
+		// Visit children left to right: indent
+		level++;
+		A.print(level);
+		C.print(level);
+		G.print(level);
+		T.print(level);
+		$.print(level);
 	}
 	
 	@Override
-	public void print() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void insert(Sequence sequence) {
+	public void insert(Node parent, Sequence sequence) {
 		if(sequence.hasNext()){
 			final char sequenceChar = sequence.next();
 			
@@ -104,27 +128,14 @@ public class InternalNode implements Node{
 			Node child = getChild(sequenceChar);
 			
 			// Error check that we had a valid child name
-			if(child == null){
-				P2.out.println("Invalid sequence, "+sequence+". Contains character not in DNA alphabet.");
-				return;
-			}
+//			if(child == null){
+//				P2.out.println("Invalid sequence, "+sequence+". Contains character not in DNA alphabet.");
+//				return;
+//			}
 			
-			if(child instanceof InternalNode){
-				
-				child.insert(sequence);	// Traverse further into tree
-				
-			}else if(child instanceof FlyweightNode){
-				
-				child = new SequenceNode(sequence);	// Replace flyweight with new sequence leaf node
-				
-			}else{ // Child is instanceof SequenceNode
-				// Expand the tree to fit new sequence
-				if(sequence == ((SequenceNode)child).getSequence()){
-					P2.out.println("Invalid sequence, "+sequence+". Sequence already exists.");
-					return;
-				}
-				child = new InternalNode((SequenceNode) child, sequence);
-			}
+			child.insert(this, sequence);
+			
+			
 		}else{
 			// We have looked at all characters in sequence. It must be a prefix
 			set$(new SequenceNode(sequence));
