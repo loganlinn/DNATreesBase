@@ -40,7 +40,7 @@ public class LeafNode extends Node{
 	}
 
 	@Override
-	public void print(int level) {
+	public void print(int level, int mode) {
 		indentedPrint(level, EMPTY_LEAF_NODE);
 	}
 	

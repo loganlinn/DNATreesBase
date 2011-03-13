@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 
@@ -12,6 +14,29 @@ public class CharacterSequence implements Sequence{
 	 */
 	public CharacterSequence(String sequenceInput) {
 		characters = sequenceInput.toCharArray();
+	}
+	
+	@Override
+	public Map<Character, Double> stats() {
+		HashMap<Character, Double> stats = new HashMap<Character, Double>();
+		// Iterate through all characters in sequence, count the number of occurances
+		for(char c : characters){
+			Double count;
+			if(!stats.containsKey(c)){	// Add it for the first time if it doesnt exist
+				count = 1.0;
+			}else{
+				count = stats.get(c);
+			}
+			stats.put(c, count);
+		}
+		
+		// Divide sums by total size
+		final int length = length();
+		for(Map.Entry<Character, Double> entry : stats.entrySet()){
+			
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -67,6 +92,7 @@ public class CharacterSequence implements Sequence{
 	 * Returns the length of the sequence
 	 * @return
 	 */
+	@Override
 	public int length(){
 		return characters.length;
 	}

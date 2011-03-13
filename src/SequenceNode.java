@@ -4,7 +4,7 @@
  * 
  */
 public class SequenceNode extends Node {
-	private Sequence sequence;	// Sequence contained in this node
+	private Sequence sequence;	// Sequence data contained in this node
 
 	/**
 	 * Constructs a SequenceNode given a Sequence
@@ -19,7 +19,7 @@ public class SequenceNode extends Node {
 	 * Print the Sequence within this Node
 	 */
 	@Override
-	public void print(int level) {
+	public void print(int level, int mode) {
 		indentedPrint(level, sequence.toString());
 	}
 	
@@ -52,11 +52,10 @@ public class SequenceNode extends Node {
 			}
 			
 			// Check if parent's prefix child is already defined. If it is, we have duplicate sequences
-			if(flyweight != ((InternalNode) parent).get$()){
+			// Compare the parent's $ to the flyweight to determine if its empty 
+			if(LeafNode.getEmptyLeafNode() != ((InternalNode) parent).get$()){
 				((InternalNode) parent).set$(new SequenceNode(sequence));
 			}
-			
-			
 		}else{
 			// Otherwise, we must have the identical sequence
 			P2.Error.duplicateSequence(sequence);

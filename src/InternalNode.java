@@ -5,7 +5,9 @@
  *
  */
 public class InternalNode extends Node{
-	
+	/*
+	 * Children references
+	 */
 	private Node A = null;
 	private Node C = null;
 	private Node G = null;
@@ -14,7 +16,7 @@ public class InternalNode extends Node{
 	
 	/**
 	 * Constructs an InternalNode given the SequenceNode to be pushed down and the new Sequence.
-	 * Internal nodes are always created with exactly 2 sequences
+	 * Internal nodes are always created with exactly 2 sequences (one of which is an existing SequenceNode)
 	 * 
 	 * @param existingSequence
 	 * @param newSequence
@@ -24,12 +26,15 @@ public class InternalNode extends Node{
 		if(existingSequence.hasNext()){
 			final char existingSequenceChar = existingSequence.next();
 			
+			// Set the appropriate child with the existing node. Give an error if we are unable to locate child
 			if(!setChild(existingSequenceChar, existingSequenceNode)){
-				P2.out.println("Invalid sequence, "+existingSequence+". Contains character not in DNA alphabet.");
+				P2.Error.invalidSequence(existingSequence);
 			}
 			
+			// Fill rest of children with flyweight
 			fillEmptyChildren();
 			
+			// Insert the new sequence 
 			insert(this, newSequence);
 			
 		}else{ // Existing sequence must be a prefix
@@ -38,6 +43,10 @@ public class InternalNode extends Node{
 		}
 	}
 	
+	/**
+	 * Fills empty child references with references to flyweight.
+	 * Always called from constructor
+	 */
 	private void fillEmptyChildren(){
 		if(A == null){
 			A = LeafNode.getEmptyLeafNode();
@@ -107,16 +116,16 @@ public class InternalNode extends Node{
 	 * Preorder traversal
 	 */
 	@Override
-	public void print(int level) {
+	public void print(int level, int mode) {
 		// Visit self
 		indentedPrint(level, INTERNAL_NODE);
 		// Visit children left to right: indent
 		level++;
-		A.print(level);
-		C.print(level);
-		G.print(level);
-		T.print(level);
-		$.print(level);
+		A.print(level, mode);
+		C.print(level, mode);
+		G.print(level, mode);
+		T.print(level, mode);
+		$.print(level, mode);
 	}
 	
 	@Override
