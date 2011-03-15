@@ -227,6 +227,17 @@ public class InternalNode extends Node{
 		return collapsible;
 	}
 	
+
+	@Override
+	public void search(int level, int mode, Sequence sequence) {
+		
+		if(sequence.hasNext()){
+			
+		}else{
+			
+		}
+	}
+	
 	/**
 	 * Counts the number of children that are not EmptyLeafNodes or InternalNodes
 	 * 

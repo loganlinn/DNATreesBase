@@ -65,4 +65,9 @@ public class EmptyLeafNode extends Node{
 		P2.Error.removeSequenceNotFound(sequence);
 		return this;
 	}
+
+	@Override
+	public void search(int level, int mode, Sequence sequence) {
+		
+	}
 }

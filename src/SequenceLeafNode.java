@@ -76,6 +76,12 @@ public class SequenceLeafNode extends Node {
 		}
 	}
 
+	@Override
+	public void search(int level, int mode, Sequence sequence) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	/**
 	 * @return the sequence
 	 */
