@@ -1,6 +1,6 @@
 
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.NoSuchElementException;
 
 
@@ -18,26 +18,34 @@ public class ArraySequence implements Sequence{
 	}
 	
 	@Override
-	public Map<Character, Double> stats() {
-		HashMap<Character, Double> stats = new HashMap<Character, Double>();
-		// Iterate through all characters in sequence, count the number of occurances
+	public String stats() {
+		
+		char[] alphabet = P2.ALPHABET;
+		double[] averages = new double[alphabet.length];	// we can assume values are initialized to 0
+		
+		// Count the number of times each character of the alphabet appears
 		for(char c : characters){
-			Double count;
-			if(!stats.containsKey(c)){	// Add it for the first time if it doesnt exist
-				count = 1.0;
-			}else{
-				count = stats.get(c);
+			for(int i = 0; i < alphabet.length; i++){
+				if(alphabet[i] == c){
+					averages[i]++;	// increment the sum
+					break;		// we have found a match, no need to compare rest of characters in alphabet
+				}
 			}
-			stats.put(c, count);
+		}
+		// Divide the sums by total to get the average
+		int totalCharacters = characters.length;
+		for(int i = 0; i < averages.length; i++){
+			averages[i] = (averages[i] / totalCharacters) * 100;
 		}
 		
-		// Divide sums by total size
-		final int length = length();
-		for(Map.Entry<Character, Double> entry : stats.entrySet()){
-			
+		// Create format string
+		NumberFormat formatter = new DecimalFormat("0.00");
+		String formattedStrings = "", delimiter = ", ";
+		for(int i = 0; i < alphabet.length; i++){
+			formattedStrings += alphabet[i]+ "(" + formatter.format(averages[i]) + ")"+delimiter;
 		}
 		
-		return null;
+		return formattedStrings.substring(0, formattedStrings.length() - delimiter.length());
 	}
 	
 	/**

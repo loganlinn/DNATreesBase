@@ -38,6 +38,7 @@ import java.io.PrintStream;
  * @author matthewibarra
  */
 public class P2 {
+	public static final char[] ALPHABET = {'A','C','G','T'};
 	
 	public static PrintStream out = System.out; // Project output, standard output
 	

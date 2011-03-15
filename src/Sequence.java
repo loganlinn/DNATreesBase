@@ -16,5 +16,5 @@ public interface Sequence {
 	public boolean hasPrev();		// returns true if able to move the current character backward
 	public String getSequence();	// provides the sequence as a String
 	public int length();			// provides length of sequence
-	public Map<Character, Double> stats();	// provides a map of characters to percentages of representation in the sequence
+	public String stats();			// provides formatting string with percentages of character representation
 }

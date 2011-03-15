@@ -112,7 +112,8 @@ public class Tree{
 //		dnatree.print();		
 		
 		dnatree.insert(new ArraySequence("TCG"));
-		dnatree.print();
-		
+//		dnatree.print();
+		dnatree.printLengths();
+		dnatree.printStats();
 	}
 }

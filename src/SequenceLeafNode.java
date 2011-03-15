@@ -22,7 +22,15 @@ public class SequenceLeafNode extends Node {
 	 */
 	@Override
 	public void print(int level, int mode) {
-		indentedPrint(level, sequence.toString());
+		String sequenceValue = sequence.toString();
+		
+		if(mode == PRINT_MODE_LENGTHS){
+			sequenceValue += ": length "+sequence.length();
+		}else if(mode == PRINT_MODE_STATS){
+			sequenceValue += ": "+sequence.stats();
+		}
+		
+		indentedPrint(level, sequenceValue);
 	}
 	
 	/**
