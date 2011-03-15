@@ -1,3 +1,4 @@
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -102,7 +103,7 @@ public class CharacterSequence implements Sequence{
 	 */
 	@Override
 	public String toString() { 
-		return characters.toString();
+		return new String(characters);
 	}
 
 	/* (non-Javadoc)

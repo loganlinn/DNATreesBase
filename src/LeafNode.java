@@ -1,3 +1,4 @@
+
 /**
  * Flyweight represents a leaf node. Singleton pattern is used for a single 
  * flyweight object is used for all empty leaf nodes in the tree.
@@ -48,13 +49,13 @@ public class LeafNode extends Node{
 	 * Only called when an empty leaf-node. Replace self with new non-empty leaf node (SequenceNode)
 	 */
 	@Override
-	public void insert(Node parent, Sequence sequence) {
-		((InternalNode) parent).setChild(sequence.current(), new SequenceNode(sequence));
+	public Node insert(Node parent, Sequence sequence) {
+		return new SequenceNode(sequence);
 	}
 
 	@Override
-	public void delete(Sequence sequence) {
+	public Node delete(Sequence sequence) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 }

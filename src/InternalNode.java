@@ -1,3 +1,4 @@
+
 /**
  * 
  * If ____ the InternalNode collapses into a SequenceNode
@@ -29,18 +30,19 @@ public class InternalNode extends Node{
 			// Set the appropriate child with the existing node. Give an error if we are unable to locate child
 			if(!setChild(existingSequenceChar, existingSequenceNode)){
 				P2.Error.invalidSequence(existingSequence);
+				return;
 			}
-			
-			// Fill rest of children with flyweight
-			fillEmptyChildren();
-			
-			// Insert the new sequence 
-			insert(this, newSequence);
 			
 		}else{ // Existing sequence must be a prefix
 			// Assumes existingSequence != newSequence
 			$ = existingSequenceNode;
+			
 		}
+		// Fill rest of children with flyweight
+		fillEmptyChildren();
+		
+		// Insert the new sequence 
+		insert(this, newSequence);
 	}
 	
 	/**
@@ -129,33 +131,45 @@ public class InternalNode extends Node{
 	}
 	
 	@Override
-	public void insert(Node parent, Sequence sequence) {
+	public Node insert(Node parent, Sequence sequence) {
 		if(sequence.hasNext()){
 			final char sequenceChar = sequence.next();
+//			System.out.println(sequenceChar+" of "+ sequence);
 			
 			// Get the associated child node
 			Node child = getChild(sequenceChar);
 			
-			// Error check that we had a valid child name
-//			if(child == null){
-//				P2.out.println("Invalid sequence, "+sequence+". Contains character not in DNA alphabet.");
-//				return;
-//			}
-			
-			child.insert(this, sequence);
-			
-			
+			// If child is SequenceNode, insert will return the replacement InternalNode
+			// If child is Flyweight, insert will return new SequenceNode
+			// If child is InternalNode, insert will return the same InternalNode
+			setChild(sequenceChar, child.insert(this, sequence));
 		}else{
-			// We have looked at all characters in sequence. It must be a prefix
-			set$(new SequenceNode(sequence));
+			// We have looked at all characters in sequence. It must be a prefix of parent
+			// Check if parent's prefix child is already defined. If it is, we have duplicate sequences
+			// Compare the parent's $ to the flyweight to determine if its empty 
+			if(parent == null){
+				// If parent is null, we must be root, and if the sequence doesn't have any characters, it must be empty
+				P2.Error.invalidSequence(sequence);
+			}else{
+				((InternalNode) parent).setPrefix(sequence);
+			}
 		}
-		
+		// InternalNode are static during insert, so return this (nothing changes in parent)
+		return this;
 	}
 	
 	@Override
-	public void delete(Sequence sequence) {
+	public Node delete(Sequence sequence) {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+	
+	public void setPrefix(Sequence sequence){
+		if($ != LeafNode.getEmptyLeafNode()){
+			$ = new SequenceNode(sequence);
+		}else{
+			P2.Error.duplicateSequence(sequence);
+		}
 	}
 	
 	/**

@@ -1,3 +1,4 @@
+
 /**
  * 
  * @author loganlinn
@@ -34,13 +35,14 @@ public class SequenceNode extends Node {
 	 *  Note: Since we are a leaf node, we can assume parent is an InteralNode
 	 */
 	@Override
-	public void insert(Node parent, Sequence sequence) {
+	public Node insert(Node parent, Sequence sequence) {
 		final boolean thisHasNext = this.sequence.hasNext();
 		
 		if(thisHasNext && sequence.hasNext()){
 			// Both sequences have more
-			((InternalNode) parent).setChild(sequence.current(), new InternalNode(this, sequence));
+			Node replacement =  new InternalNode(this, sequence);
 			
+			return replacement;
 		}else if(thisHasNext){
 			// This node's sequence still has characters, but inserting sequence doesn't
 			// Therefore, sequence we are inserting is a prefix of this sequence
@@ -51,21 +53,21 @@ public class SequenceNode extends Node {
 				P2.Error.invalidSequence(sequence);
 			}
 			
-			// Check if parent's prefix child is already defined. If it is, we have duplicate sequences
-			// Compare the parent's $ to the flyweight to determine if its empty 
-			if(LeafNode.getEmptyLeafNode() != ((InternalNode) parent).get$()){
-				((InternalNode) parent).set$(new SequenceNode(sequence));
-			}
+			
+			((InternalNode) parent).setPrefix(sequence);
+			
+			return this;
 		}else{
 			// Otherwise, we must have the identical sequence
 			P2.Error.duplicateSequence(sequence);
+			return this;
 		}
 	}
 
 	@Override
-	public void delete(Sequence sequence) {
+	public Node delete(Sequence sequence) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	/**
@@ -82,4 +84,8 @@ public class SequenceNode extends Node {
 		this.sequence = sequence;
 	}
 
+	@Override
+	public String toString(){
+		return sequence.toString();
+	}
 }

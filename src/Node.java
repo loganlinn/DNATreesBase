@@ -1,3 +1,4 @@
+
 /**
  * Base node class
  * @author loganlinn
@@ -25,6 +26,6 @@ public abstract class Node {
 	}
 	
 	abstract void print(int level, int mode);				// prints node representation to P2.out
-	abstract void insert(Node parent, Sequence sequence);	// inserts the given sequence into the tree
-	abstract void delete(Sequence sequence);				// deletes the given sequence from the tree
+	abstract Node insert(Node parent, Sequence sequence);	// inserts the given sequence into the tree
+	abstract Node delete(Sequence sequence);				// deletes the given sequence from the tree
 }

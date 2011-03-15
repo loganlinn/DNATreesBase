@@ -1,5 +1,5 @@
+
 import java.io.PrintStream;
-import java.io.PrintWriter;
 
 /**
  * CS3114 Project 2 - DNA Trees
@@ -75,19 +75,36 @@ public class P2 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+		
 	}
 	
-	
+	/**
+	 * Error is a static nested class for reporting errors during runtime
+	 * 
+	 * @author loganlinn
+	 *
+	 */
 	public static class Error{
-		public static PrintStream out = P2.out; // Output for errors. Currently, use whatever P2 uses, but could be System.err
-		
+		public static PrintStream out = P2.out; // Output stream for errors.
+												// Currently, use whatever P2 uses, but could be System.err
+		/**
+		 * Reports a duplicate sequence has been detected
+		 * 
+		 * @param sequence
+		 */
 		public static void duplicateSequence(Sequence sequence){
 			out.println("ERROR: Sequence, \""+sequence.toString()+"\" already exists in DNA Tree");
 		}
 
+		/**
+		 * Reports an invalid sequence has been detected.
+		 * Can happen when unexpected characters appear in sequence
+		 * 
+		 * @param sequence
+		 */
 		public static void invalidSequence(Sequence sequence) {
 			out.println("ERROR: Invaid sequence, \""+sequence.toString()+"\"");
 		}
+		
 	}
 }
