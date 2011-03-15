@@ -230,7 +230,7 @@ public class InternalNode extends Node{
 
 	@Override
 	public void search(int level, int mode, Sequence sequence) {
-		
+		level++; // Increment level to indicate search has looked at this node
 		if(sequence.hasNext()){
 			
 		}else{

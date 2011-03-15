@@ -12,7 +12,7 @@ public abstract class Node {
 	public static final int PRINT_MODE_LENGTHS = 1;		// Passed to print for lengths print mode
 	public static final int PRINT_MODE_STATS = 2;		// Passed to print for stats print mode
 	public static final int SEARCH_MODE_PREFIX = 0;
-	public static final int SEARCH_MODE_STRICT = 1;
+	public static final int SEARCH_MODE_EXACT = 1;
 	
 	/**
 	 * Helper method to print value with indents

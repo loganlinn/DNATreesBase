@@ -11,10 +11,10 @@ public class Tree{
 	 * Constructs a Tree object given a sequence. 
 	 * The first node in the tree is always a SequenceNode
 	 * 
-	 * @param sequence
+	 * @param sequenceDescriptor
 	 */
-	public Tree(Sequence sequence){
-		root = new SequenceLeafNode(sequence);
+	public Tree(String sequenceDescriptor){
+		root = new SequenceLeafNode(new ArraySequence(sequenceDescriptor));
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class Tree{
 	 * 
 	 * @param mode
 	 */
-	public void print(int mode){
+	protected void print(int mode){
 		// Start the preorder traversal at level 0
 		root.print(ROOT_LEVEL, mode);
 	}
@@ -54,66 +54,84 @@ public class Tree{
 	/**
 	 * Inserts a Sequence into the tree
 	 * 
-	 * @param sequence
+	 * @param sequenceDescriptor
 	 */
-	void insert(Sequence sequence) {
+	public void insert(String sequenceDescriptor) {
 		// Insert the sequence into the root node
-		root = root.insert(sequence);
+		root = root.insert(new ArraySequence(sequenceDescriptor));
 	}
 	
 	/**
 	 * Removes a Sequence from the tree
 	 * 
-	 * @param sequence
+	 * @param sequenceDescriptor
 	 */
-	void remove(Sequence sequence){
-		root = root.remove(sequence);
+	public void remove(String sequenceDescriptor){
+		root = root.remove(new ArraySequence(sequenceDescriptor));
 	}
 	
 	/**
 	 * Searches for sequence in tree
 	 * TODO: Describe output
 	 * 
-	 * @param sequence
+	 * @param sequenceDescriptor
 	 */
-	void search(Sequence sequence){
-		
+	protected void search(int mode, String sequenceDescriptor){
+		root.search(ROOT_LEVEL, mode, new ArraySequence(sequenceDescriptor));
 	}
-
-	public static void main(String[] args) {
+	
+	/**
+	 * Searches the tree for a given sequence prefix (including exact match)
+	 * 
+	 * @param sequenceDescriptor
+	 */
+	public void searchPrefix(String sequenceDescriptor){
+		search(Node.SEARCH_MODE_PREFIX, sequenceDescriptor);
+	}
+	
+	/**
+	 * Searches the tree for the exact sequence
+	 * 
+	 * @param sequenceDescriptor
+	 */
+	public void searchExact(String sequenceDescriptor){
+		search(Node.SEARCH_MODE_EXACT, sequenceDescriptor);
+	}
+	
+	/**
+	 * Sample test: http://courses.cs.vt.edu/~cs3114/Spring11/P2sampleinputTree.pdf
+	 */
+	public static void main(String[] args) {	
+		Tree dnatree = new Tree("AAAA");
 		
-		/**
-		 * Sample test
-		 */
-		Tree dnatree = new Tree(new ArraySequence("AAAA"));
-		
-		dnatree.insert(new ArraySequence("ACGT"));
+		dnatree.insert("ACGT");
 //		dnatree.print();
 		
-		dnatree.insert(new ArraySequence("AA"));
+		dnatree.insert("AA");
 //		dnatree.print();
 		
-		dnatree.insert(new ArraySequence("AAACCCCGGTGAAAACGTA"));
+		dnatree.insert("AAACCCCGGTGAAAACGTA");
 //		dnatree.print();
 		
-		dnatree.insert(new ArraySequence("ACTGGGAA"));
+		dnatree.insert("ACTGGGAA");
 //		dnatree.print();
 		
-		dnatree.remove(new ArraySequence("ACGT"));
+		dnatree.remove("ACGT");
 //		dnatree.print();
 		
-		dnatree.insert(new ArraySequence("ACCTT"));		
+		dnatree.insert("ACCTT");		
 //		dnatree.print();
 		
-		dnatree.insert(new ArraySequence("ACTTA"));
+		dnatree.insert("ACTTA");
 //		dnatree.print();
 		
-		dnatree.insert(new ArraySequence("TATA"));
+		dnatree.insert("TATA");
 //		dnatree.print();		
 		
-		dnatree.insert(new ArraySequence("TCG"));
+		dnatree.insert("TCG");
 //		dnatree.print();
 		dnatree.printLengths();
 		dnatree.printStats();
+		
 	}
 }
