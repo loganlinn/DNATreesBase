@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 
-public class CharacterSequence implements Sequence{
+public class ArraySequence implements Sequence{
 	private int position = 0;			// Stores the index of the next unseen character in sequence
 	private final char[] characters;	// Sequence characters
 	
@@ -13,7 +13,7 @@ public class CharacterSequence implements Sequence{
 	 * 
 	 * @param sequenceCharacters
 	 */
-	public CharacterSequence(String sequenceInput) {
+	public ArraySequence(String sequenceInput) {
 		characters = sequenceInput.toCharArray();
 	}
 	
@@ -106,8 +106,9 @@ public class CharacterSequence implements Sequence{
 		return new String(characters);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+
+	/**
+	 * Compare with another Sequence 
 	 */
 	@Override
 	public boolean equals(Object obj) {

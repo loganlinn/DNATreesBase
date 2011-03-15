@@ -4,7 +4,7 @@
  * @author loganlinn
  * 
  */
-public class SequenceNode extends Node {
+public class SequenceLeafNode extends Node {
 	private Sequence sequence;	// Sequence data contained in this node
 
 	/**
@@ -12,7 +12,7 @@ public class SequenceNode extends Node {
 	 * 
 	 * @param sequence
 	 */
-	public SequenceNode(Sequence sequence) {
+	public SequenceLeafNode(Sequence sequence) {
 		this.sequence = sequence;
 	}
 	
@@ -32,31 +32,17 @@ public class SequenceNode extends Node {
 	 *  - Sequence to insert is a prefix to this node's sequence
 	 *  - Sequence to insert is the same as this node's sequence (error)
 	 *  
-	 *  Note: Since we are a leaf node, we can assume parent is an InteralNode
+	 *  Note: Since we are a leaf node, we can assume parent (what we are returning to) is an InteralNode
 	 */
 	@Override
-	public Node insert(Node parent, Sequence sequence) {
-		final boolean thisHasNext = this.sequence.hasNext();
-		
-		if(thisHasNext && sequence.hasNext()){
+	public Node insert(Sequence sequence) {
+		// At least one of the sequences should have more characters.
+		// If they don' that indicates a duplicate
+		if(this.sequence.hasNext() || sequence.hasNext()){
 			// Both sequences have more
 			Node replacement =  new InternalNode(this, sequence);
-			
+			// Return the new InternalNode to move this SequenceNode down
 			return replacement;
-		}else if(thisHasNext){
-			// This node's sequence still has characters, but inserting sequence doesn't
-			// Therefore, sequence we are inserting is a prefix of this sequence
-			
-			// Sanity check: if parent is null (aka we are root) inserting sequence should have characters, 
-			// but would have only gotten to here if it didn't
-			if(parent == null){
-				P2.Error.invalidSequence(sequence);
-			}
-			
-			
-			((InternalNode) parent).setPrefix(sequence);
-			
-			return this;
 		}else{
 			// Otherwise, we must have the identical sequence
 			P2.Error.duplicateSequence(sequence);
@@ -65,7 +51,7 @@ public class SequenceNode extends Node {
 	}
 
 	@Override
-	public Node delete(Sequence sequence) {
+	public Node remove(Sequence sequence) {
 		// TODO Auto-generated method stub
 		return null;
 	}

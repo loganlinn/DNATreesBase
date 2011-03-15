@@ -6,17 +6,17 @@
  * @author loganlinn
  *
  */
-public class LeafNode extends Node{
+public class EmptyLeafNode extends Node{
 	
-	private static LeafNode flyweight = null;	// Single flyweight for all empty leaf nodes
+	private static EmptyLeafNode flyweight = null;	// Single flyweight for all empty leaf nodes
 	
 	/**
 	 * Factory method to access flyweight
 	 * @return
 	 */
-	public static LeafNode getEmptyLeafNode(){
+	public static EmptyLeafNode getInstance(){
 		if(flyweight == null){
-			flyweight = new LeafNode();
+			flyweight = new EmptyLeafNode();
 		}
 		return flyweight;
 	}
@@ -34,9 +34,9 @@ public class LeafNode extends Node{
 	 * Constructs a Flyweight
 	 * Private constructor for Singleton pattern.
 	 * Can only be instantiated internally
-	 * @see LeafNode#getFlyweight()
+	 * @see EmptyLeafNode#getInstance()
 	 */
-	private LeafNode(){
+	private EmptyLeafNode(){
 		
 	}
 
@@ -49,12 +49,12 @@ public class LeafNode extends Node{
 	 * Only called when an empty leaf-node. Replace self with new non-empty leaf node (SequenceNode)
 	 */
 	@Override
-	public Node insert(Node parent, Sequence sequence) {
-		return new SequenceNode(sequence);
+	public Node insert(Sequence sequence) {
+		return new SequenceLeafNode(sequence);
 	}
 
 	@Override
-	public Node delete(Sequence sequence) {
+	public Node remove(Sequence sequence) {
 		// TODO Auto-generated method stub
 		return null;
 	}
