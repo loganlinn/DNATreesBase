@@ -93,7 +93,7 @@ public class P2 {
 		 * @param sequence
 		 */
 		public static void duplicateSequence(Sequence sequence){
-			out.println("ERROR: Sequence, \""+sequence.toString()+"\" already exists in DNA Tree");
+			out.println("ERROR: Sequence, \""+sequence.toString()+"\" already exists in DNA Tree.");
 		}
 
 		/**
@@ -103,8 +103,15 @@ public class P2 {
 		 * @param sequence
 		 */
 		public static void invalidSequence(Sequence sequence) {
-			out.println("ERROR: Invaid sequence, \""+sequence.toString()+"\"");
+			out.println("ERROR: Invaid sequence, \""+sequence.toString()+"\".");
 		}
 		
+		public static void removeSequenceNotFound(Sequence sequence){
+			out.println("Could not find sequence, \""+sequence+"\", to remove.");
+		}
+		
+		public static void searchSequenceNotFound(Sequence sequence){
+			out.println("Could not find sequence, \""+sequence+"\", during serach.");
+		}
 	}
 }

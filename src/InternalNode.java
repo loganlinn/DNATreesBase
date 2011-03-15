@@ -6,6 +6,8 @@
  *
  */
 public class InternalNode extends Node{
+	public static final int MIN_NON_EMPTY_LEAF_CHILREN = 2;
+	
 	/*
 	 * Children references
 	 */
@@ -133,6 +135,9 @@ public class InternalNode extends Node{
 	
 	/**
 	 * Insert
+	 * TODO: doc
+	 * 
+	 * @return the Node that should replace this Node OR self to keep the same
 	 */
 	@Override
 	public Node insert(Sequence sequence) {
@@ -143,28 +148,27 @@ public class InternalNode extends Node{
 			Node child = getChild(sequenceChar);
 			
 			// Determine if we have a prefix sequence
-			// 	Check if child isn't empty and sequence doesn't has more characters
-			//	If we have a prefix, but other children, we need to expand by inserting into SequenceNode (not set prefix yet)
-			if(!sequence.hasNext() && (numNonEmptyLeafChildren() < 1)){
+			// - Check again (after taking sequenceChar) sequence has more characters
+			// - Check if we have other non-empty children that would prevent prefix on this level:
+			// -- If we have a prefix, but other children, we need to expand by inserting into the SequenceNode
+			if(!sequence.hasNext() && (numNonEmptyLeafChildren() < MIN_NON_EMPTY_LEAF_CHILREN)){
+				// TODO: Determine if there's a case where we should swap a currently assigned child with prefix
 				setPrefix(sequence);
 			}else{
-				// Assign the child to the result of inserting into it:
-				// 	If child is SequenceNode, insert will return the replacement InternalNode
-				// 	If child is Flyweight, insert will return new SequenceNode
-				// 	If child is InternalNode, insert will return the same InternalNode
+				/*
+				 * Assign the child to the result of inserting into it:
+				 * - If child is SequenceNode, insert will return the replacement InternalNode
+				 * - If child is Flyweight, insert will return new SequenceNode
+				 * - If child is InternalNode, insert will return the same InternalNode
+				 */
 				setChild(sequenceChar, child.insert(sequence));
 			}
 		}else{
 			// We have looked at all characters in sequence. It must be a prefix of parent
 			// Check if parent's prefix child is already defined. If it is, we have duplicate sequences
 			// Compare the parent's $ to the flyweight to determine if its empty 
-//			if(parent == null){
-//				// If parent is null, we must be root, and if the sequence doesn't have any characters, it must be empty
-//				P2.Error.invalidSequence(sequence);
-//			}else{
-//				((InternalNode) parent).setPrefix(sequence);
-//			}
-			// TODO: Confirm we set the prefix here
+			
+			// TODO: Confirm we set the prefix here, or try to set to a child. Do we know child is empty?
 			setPrefix(sequence);
 		}
 		// InternalNode are static for insert, so return this (nothing changes in parent)
@@ -172,7 +176,60 @@ public class InternalNode extends Node{
 	}
 	
 	/**
+	 * 
+	 * @return the Node that should replace this Node OR self to keep the same
+	 */
+	@Override
+	public Node remove(Sequence sequence) {
+		
+		if(sequence.hasNext()){
+			// Take the next character
+			final char sequenceChar = sequence.next();
+			// Get the associated child node
+			Node child = getChild(sequenceChar);
+			/*
+			 *  Call remove on the child - possible outcomes:
+			 *  - Removes the Sequence by assigning child to EmptyLeafNode (when child is SequenceNode)
+			 *  - Fails to remove because the sequence isn't in the tree (when child is SequenceNode or EmptyLeafNode)
+			 *  - Refines the search to find the Sequence we are trying to remove (when child is InternalNode)
+			 */
+			setChild(sequenceChar, child.remove(sequence));
+		}else{
+			// We have looked at all of the characters -- if we have the sequence, its this prefix
+			$ = $.remove(sequence);
+		}
+		
+		/*
+		 * Determine if we need to collapse by checking if we have only 1 non-empty leaf node
+		 */
+		Node collapsible = null;
+		for(Node child : getChildren()){
+			// We cannot collapse if a child is an InternalNode
+			if(child instanceof InternalNode){
+				return this;
+			}else if(child instanceof SequenceLeafNode){
+				// If we find more than 1 SequenceLeafNode, we can't collapse
+				if(collapsible == null){
+					collapsible = child;
+				}else{
+					return this;
+				}
+			}
+			
+		}
+		/*
+		 * If we havn't returned:
+		 * - We are going to collapse
+		 * - collapsible is a SequenceLeafNode
+		 * Move the pointer in the sequence back so comparisons are made at the correct character
+		 */
+		((SequenceLeafNode) collapsible).getSequence().prev();
+		return collapsible;
+	}
+	
+	/**
 	 * Counts the number of children that are not EmptyLeafNodes or InternalNodes
+	 * 
 	 * @return
 	 */
 	private int numNonEmptyLeafChildren(){
@@ -190,17 +247,17 @@ public class InternalNode extends Node{
 			nonEmptyChildren++;
 		}
 		
-		// TODO: determine if we count & here
+		// TODO: determine if we count $ here
 		return nonEmptyChildren;
 	}
 	
 	/**
+	 * Gets an array of child nodes
 	 * 
+	 * @return a Node array containing the children
 	 */
-	@Override
-	public Node remove(Sequence sequence) {
-		// TODO Auto-generated method stub
-		return null;
+	private Node[] getChildren(){
+		return new Node[]{A, C, G, T, $};
 	}
 	
 	/**

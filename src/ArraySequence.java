@@ -113,7 +113,7 @@ public class ArraySequence implements Sequence{
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Sequence){
-			return (this.toString() == ((Sequence) obj).toString());
+			return (this.toString().equals(((Sequence) obj).toString()));
 		}
 		return super.equals(obj);
 	}

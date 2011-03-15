@@ -18,6 +18,7 @@ public class SequenceLeafNode extends Node {
 	
 	/**
 	 * Print the Sequence within this Node
+	 * 
 	 */
 	@Override
 	public void print(int level, int mode) {
@@ -33,16 +34,16 @@ public class SequenceLeafNode extends Node {
 	 *  - Sequence to insert is the same as this node's sequence (error)
 	 *  
 	 *  Note: Since we are a leaf node, we can assume parent (what we are returning to) is an InteralNode
+	 *  
+	 *  @return the Node that should replace this Node OR self to keep the same
 	 */
 	@Override
 	public Node insert(Sequence sequence) {
 		// At least one of the sequences should have more characters.
-		// If they don' that indicates a duplicate
+		// If they don't that indicates a duplicate. We could also compare sequences here
 		if(this.sequence.hasNext() || sequence.hasNext()){
-			// Both sequences have more
-			Node replacement =  new InternalNode(this, sequence);
 			// Return the new InternalNode to move this SequenceNode down
-			return replacement;
+			return new InternalNode(this, sequence);
 		}else{
 			// Otherwise, we must have the identical sequence
 			P2.Error.duplicateSequence(sequence);
@@ -50,10 +51,21 @@ public class SequenceLeafNode extends Node {
 		}
 	}
 
+	/**
+	 * Removes a LeafNode from the tree once it is found
+	 * 
+	 * @return the Node that should replace this Node OR self to keep the same
+	 */
 	@Override
 	public Node remove(Sequence sequence) {
-		// TODO Auto-generated method stub
-		return null;
+		// Verify this is a matching sequence
+		if(this.sequence.equals(sequence)){
+			return EmptyLeafNode.getInstance();
+		}else{
+			P2.out.println(this.sequence+" != "+sequence);
+			P2.Error.removeSequenceNotFound(sequence);
+			return this;
+		}
 	}
 
 	/**

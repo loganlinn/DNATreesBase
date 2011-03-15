@@ -88,28 +88,31 @@ public class Tree{
 		Tree dnatree = new Tree(new ArraySequence("AAAA"));
 		
 		dnatree.insert(new ArraySequence("ACGT"));
+//		dnatree.print();
 		
 		dnatree.insert(new ArraySequence("AA"));
+//		dnatree.print();
 		
 		dnatree.insert(new ArraySequence("AAACCCCGGTGAAAACGTA"));
+//		dnatree.print();
 		
 		dnatree.insert(new ArraySequence("ACTGGGAA"));
 //		dnatree.print();
 		
 		dnatree.remove(new ArraySequence("ACGT"));
-		dnatree.print();
-		
-//		dnatree.insert(new ArraySequence("ACCTT"));		
 //		dnatree.print();
 		
-//		dnatree.insert(new ArraySequence("ACTTA"));
+		dnatree.insert(new ArraySequence("ACCTT"));		
 //		dnatree.print();
 		
-//		dnatree.insert(new ArraySequence("TATA"));
+		dnatree.insert(new ArraySequence("ACTTA"));
+//		dnatree.print();
+		
+		dnatree.insert(new ArraySequence("TATA"));
 //		dnatree.print();		
 		
-//		dnatree.insert(new ArraySequence("TCG"));
-//		dnatree.print();
+		dnatree.insert(new ArraySequence("TCG"));
+		dnatree.print();
 		
 	}
 }

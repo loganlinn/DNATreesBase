@@ -47,15 +47,22 @@ public class EmptyLeafNode extends Node{
 	
 	/**
 	 * Only called when an empty leaf-node. Replace self with new non-empty leaf node (SequenceNode)
+	 * 
+	 * @return the new SequenceNode that will replace this Node in the tree
 	 */
 	@Override
 	public Node insert(Sequence sequence) {
 		return new SequenceLeafNode(sequence);
 	}
 
+	/**
+	 * Attempting to remove an empty leaf node means that we did not find the sequence
+	 * 
+	 * @return the same EmptyLeafNode to not alter the tree structure.
+	 */
 	@Override
 	public Node remove(Sequence sequence) {
-		// TODO Auto-generated method stub
-		return null;
+		P2.Error.removeSequenceNotFound(sequence);
+		return this;
 	}
 }
