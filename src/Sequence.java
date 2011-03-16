@@ -9,6 +9,7 @@ import java.util.Map;
  * 
  */
 public interface Sequence {
+	public static final char[] ALPHABET = {'A','C','G','T'};
 	public char next();				// provides next character in sequence
 	public char prev();				// provides previous character in sequence 
 	public char current();			// provides current character in sequence
@@ -17,4 +18,15 @@ public interface Sequence {
 	public String getSequence();	// provides the sequence as a String
 	public int length();			// provides length of sequence
 	public String stats();			// provides formatting string with percentages of character representation
+	
+	/**
+	 * SequenceException is thrown when an invalid sequence is detected (used during parsing)
+	 * @author loganlinn
+	 *
+	 */
+	public static class SequenceException extends Exception{
+		public SequenceException(String sequenceDescriptor){
+			super("Invalid sequence, \""+sequenceDescriptor+"\"");
+		}
+	}
 }

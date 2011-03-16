@@ -38,11 +38,6 @@ import java.io.PrintStream;
  * @author matthewibarra
  */
 public class P2 {
-	public static final char[] ALPHABET = {'A','C','G','T'};
-	
-	public static PrintStream out = System.out; // Project output, standard output
-	
-	
 	/*
 	 * On my honor:
 	 * 
@@ -77,42 +72,5 @@ public class P2 {
 	 */
 	public static void main(String[] args) {
 		
-	}
-	
-	/**
-	 * Error is a static nested class for reporting errors during runtime
-	 * 
-	 * @author loganlinn
-	 *
-	 */
-	public static class Error{
-		public static PrintStream out = P2.out; // Output stream for errors.
-												// Currently, use whatever P2 uses, but could be System.err
-		/**
-		 * Reports a duplicate sequence has been detected
-		 * 
-		 * @param sequence
-		 */
-		public static void duplicateSequence(Sequence sequence){
-			out.println("ERROR: Sequence, \""+sequence.toString()+"\" already exists in DNA Tree.");
-		}
-
-		/**
-		 * Reports an invalid sequence has been detected.
-		 * Can happen when unexpected characters appear in sequence
-		 * 
-		 * @param sequence
-		 */
-		public static void invalidSequence(Sequence sequence) {
-			out.println("ERROR: Invaid sequence, \""+sequence.toString()+"\".");
-		}
-		
-		public static void removeSequenceNotFound(Sequence sequence){
-			out.println("Could not find sequence, \""+sequence+"\", to remove.");
-		}
-		
-		public static void searchSequenceNotFound(Sequence sequence){
-			out.println("Could not find sequence, \""+sequence+"\", during serach.");
-		}
 	}
 }

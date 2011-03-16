@@ -54,7 +54,7 @@ public class SequenceLeafNode extends Node {
 			return new InternalNode(this, sequence);
 		}else{
 			// Otherwise, we must have the identical sequence
-			P2.Error.duplicateSequence(sequence);
+			InsertOperation.duplicateSequence(sequence);
 			return this;
 		}
 	}
@@ -70,7 +70,7 @@ public class SequenceLeafNode extends Node {
 		if(this.sequence.equals(sequence)){
 			return EmptyLeafNode.getInstance();
 		}else{
-			P2.Error.removeSequenceNotFound(sequence);
+			RemoveOperation.sequenceNotFound(sequence);
 			return this;
 		}
 	}

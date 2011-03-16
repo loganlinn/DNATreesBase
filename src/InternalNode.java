@@ -32,7 +32,7 @@ public class InternalNode extends Node{
 			
 			// Set the appropriate child with the existing node. Give an error if we are unable to locate child
 			if(!setChild(existingSequenceChar, existingSequenceNode)){
-				P2.Error.invalidSequence(existingSequence);
+				InsertOperation.invalidSequence(existingSequence);
 				return;
 			}
 			
@@ -153,7 +153,7 @@ public class InternalNode extends Node{
 			// -- If we have a prefix, but other children, we need to expand by inserting into the SequenceNode
 			if(!sequence.hasNext() && (numNonEmptyLeafChildren() < MIN_NON_EMPTY_LEAF_CHILREN)){
 				// TODO: Determine if there's a case where we should swap a currently assigned child with prefix
-				setPrefix(sequence);
+				insertPrefix(sequence);
 			}else{
 				/*
 				 * Assign the child to the result of inserting into it:
@@ -169,7 +169,7 @@ public class InternalNode extends Node{
 			// Compare the parent's $ to the flyweight to determine if its empty 
 			
 			// TODO: Confirm we set the prefix here, or try to set to a child. Do we know child is empty?
-			setPrefix(sequence);
+			insertPrefix(sequence);
 		}
 		// InternalNode are static for insert, so return this (nothing changes in parent)
 		return this;
@@ -231,6 +231,7 @@ public class InternalNode extends Node{
 	@Override
 	public void search(int level, int mode, Sequence sequence) {
 		level++; // Increment level to indicate search has looked at this node
+		
 		if(sequence.hasNext()){
 			
 		}else{
@@ -276,13 +277,13 @@ public class InternalNode extends Node{
 	 * 
 	 * @param sequence
 	 */
-	public void setPrefix(Sequence sequence){
+	public void insertPrefix(Sequence sequence){
 		// Ensure that the prefix is empty
 		if($ instanceof EmptyLeafNode){
 			$ = new SequenceLeafNode(sequence);
 		}else{
 			// Prefix isn't empty, this should indicate a duplicate sequence
-			P2.Error.duplicateSequence(sequence);
+			InsertOperation.duplicateSequence(sequence);
 		}
 	}
 	

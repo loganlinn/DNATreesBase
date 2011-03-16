@@ -20,7 +20,7 @@ public class ArraySequence implements Sequence{
 	@Override
 	public String stats() {
 		
-		char[] alphabet = P2.ALPHABET;
+		char[] alphabet = Sequence.ALPHABET;
 		double[] averages = new double[alphabet.length];	// we can assume values are initialized to 0
 		
 		// Count the number of times each character of the alphabet appears

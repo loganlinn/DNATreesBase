@@ -31,5 +31,13 @@ public class SearchOperation extends Operation{
 		root.search(ROOT_LEVEL, mode, createSequence(sequenceDescriptor));
 		return root;
 	}
+	
+	/**
+	 * Outputs a message when a sequence is not found
+	 * @param sequence
+	 */
+	public static void sequenceNotFound(Sequence sequence){
+		out.println("Could not find sequence, \""+sequence+"\", during serach.");
+	}
 
 }

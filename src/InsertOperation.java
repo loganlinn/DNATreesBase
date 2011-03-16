@@ -21,5 +21,14 @@ public class InsertOperation extends Operation{
 	public Node execute(Node root) {
 		return root.insert(createSequence(sequenceDescriptor));
 	}
+	
+	/**
+	 * Reports a duplicate sequence has been detected
+	 * 
+	 * @param sequence
+	 */
+	public static void duplicateSequence(Sequence sequence){
+		out.println("ERROR: Sequence, \""+sequence.toString()+"\" already exists in DNA Tree.");
+	}
 
 }

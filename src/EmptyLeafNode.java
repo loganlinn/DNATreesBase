@@ -62,7 +62,7 @@ public class EmptyLeafNode extends Node{
 	 */
 	@Override
 	public Node remove(Sequence sequence) {
-		P2.Error.removeSequenceNotFound(sequence);
+		RemoveOperation.sequenceNotFound(sequence);
 		return this;
 	}
 

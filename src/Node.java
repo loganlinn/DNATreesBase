@@ -17,10 +17,10 @@ public abstract class Node {
 	protected static void indentedPrint(int level, String value){
 		// Print the indents
 		for(int i = 0; i < level; i++){
-			P2.out.print(LEVEL_INDENT);
+			PrintOperation.out.print(LEVEL_INDENT);
 		}
 		// Print the value
-		P2.out.println(value);
+		PrintOperation.out.println(value);
 	}
 	
 	public abstract void print(int level, int mode);	// prints node representation to P2.out

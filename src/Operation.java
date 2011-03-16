@@ -1,3 +1,5 @@
+import java.io.PrintStream;
+
 /**
  * TreeOperation 
  * - Encapsulates DNA tree operations extracted from a command file
@@ -7,6 +9,12 @@
  *
  */
 public abstract class Operation {
+	
+	/*
+	 * Defines a common stream to print messages to (standard output)
+	 */
+	public static PrintStream out = System.out;
+	
 	/**
 	 * Descendants implement execute to perform operations on the DNA Tree
 	 * @param root
@@ -23,9 +31,12 @@ public abstract class Operation {
 		return new ArraySequence(sequenceDescriptor);
 	}
 	
-	public class SequenceException extends Exception{
-		public SequenceException(String sequenceDescriptor){
-			super("Invalid sequence, \""+sequenceDescriptor+"\"");
-		}
+	/**
+	 * Reports an invalid sequence has been detected.
+	 * 
+	 * @param sequence
+	 */
+	public static void invalidSequence(Sequence sequence) {
+		out.println("ERROR: Invaid sequence, \""+sequence.toString()+"\".");
 	}
 }
