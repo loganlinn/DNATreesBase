@@ -6,8 +6,9 @@
  */
 public class PrintLengthsOperation extends PrintOperation{
 	/*
-	 * Override the mode property to print in lengths mode
+	 * Change the mode property to print in lengths mode
 	 */
-	private int mode = PRINT_MODE_LENGTHS;
-
+	public PrintLengthsOperation(){
+		this.mode = PRINT_MODE_LENGTHS;
+	}
 }

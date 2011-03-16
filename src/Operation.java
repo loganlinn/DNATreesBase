@@ -11,7 +11,7 @@ public abstract class Operation {
 	 * Descendants implement execute to perform operations on the DNA Tree
 	 * @param root
 	 */
-	public abstract void execute(Node root);
+	public abstract Node execute(Node root);
 	
 	/**
 	 * A factory method for controlling the implementation of the Sequence interface

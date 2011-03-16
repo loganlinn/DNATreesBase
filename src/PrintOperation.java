@@ -9,7 +9,7 @@ public class PrintOperation extends Operation{
 	public static final int PRINT_MODE_LENGTHS = 1;		// Passed to print for lengths print mode
 	public static final int PRINT_MODE_STATS = 2;		// Passed to print for stats print mode
 	
-	private int mode = PRINT_MODE_NORMAL;
+	protected int mode = PRINT_MODE_NORMAL;
 	
 	/**
 	 * Constructs a normal PrintOperation
@@ -22,7 +22,8 @@ public class PrintOperation extends Operation{
 	 * Call the print method on the tree's root
 	 */
 	@Override
-	public void execute(Node root) {
+	public Node execute(Node root) {
 		root.print(ROOT_LEVEL, mode);
+		return root;
 	}
 }

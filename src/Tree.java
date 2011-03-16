@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * 
  * @author loganlinn
@@ -5,7 +8,7 @@
  */
 public class Tree{
 	private final static int ROOT_LEVEL = 0; // Numerical value for level of the root node
-	private Node root;	// Root of tree
+	private Node root = null;	// Root of tree
 	
 	/**
 	 * Constructs a Tree object given a sequence. 
@@ -14,124 +17,67 @@ public class Tree{
 	 * @param sequenceDescriptor
 	 */
 	public Tree(String sequenceDescriptor){
+		createRoot(sequenceDescriptor);
+	}
+	
+	private void createRoot(String sequenceDescriptor){
 		root = new SequenceLeafNode(new ArraySequence(sequenceDescriptor));
 	}
 	
 	/**
-	 * Print the tree in "normal" mode
-	 * 
+	 * Executes a queue of Operation objects
+	 * @param operations
 	 */
-	public void print() {
-		print(PrintOperation.PRINT_MODE_NORMAL);
-	}
-
-	/**
-	 * Print the tree in "lengths" mode
-	 * 
-	 */
-	public void printLengths(){
-		print(PrintOperation.PRINT_MODE_LENGTHS);
-	}
-	
-	/**
-	 * Print the tree in "stats" mode
-	 * 
-	 */
-	public void printStats(){
-		print(PrintOperation.PRINT_MODE_STATS);
-	}
-	
-	/**
-	 * Print the tree with the specified mode
-	 * 
-	 * @param mode
-	 */
-	protected void print(int mode){
-		// Start the preorder traversal at level 0
-		root.print(ROOT_LEVEL, mode);
-	}
-	
-	/**
-	 * Inserts a Sequence into the tree
-	 * 
-	 * @param sequenceDescriptor
-	 */
-	public void insert(String sequenceDescriptor) {
-		// Insert the sequence into the root node
-		root = root.insert(new ArraySequence(sequenceDescriptor));
-	}
-	
-	/**
-	 * Removes a Sequence from the tree
-	 * 
-	 * @param sequenceDescriptor
-	 */
-	public void remove(String sequenceDescriptor){
-		root = root.remove(new ArraySequence(sequenceDescriptor));
-	}
-	
-	/**
-	 * Searches for sequence in tree
-	 * TODO: Describe output
-	 * 
-	 * @param sequenceDescriptor
-	 */
-	protected void search(int mode, String sequenceDescriptor){
-		root.search(ROOT_LEVEL, mode, new ArraySequence(sequenceDescriptor));
-	}
-	
-	/**
-	 * Searches the tree for a given sequence prefix (including exact match)
-	 * 
-	 * @param sequenceDescriptor
-	 */
-	public void searchPrefix(String sequenceDescriptor){
-		search(SearchOperation.SEARCH_MODE_PREFIX, sequenceDescriptor);
-	}
-	
-	/**
-	 * Searches the tree for the exact sequence
-	 * 
-	 * @param sequenceDescriptor
-	 */
-	public void searchExact(String sequenceDescriptor){
-		search(SearchOperation.SEARCH_MODE_EXACT, sequenceDescriptor);
+	public void executeOperations(Queue<Operation> operations){
+		// Require that operations isn't null and has Operations
+		if(operations == null || operations.size() < 1){
+			return;
+		}
+		// Iterate over all operations and call the execute method
+		for(Operation operation : operations){
+			root = operation.execute(root);
+		}
 	}
 	
 	/**
 	 * Sample test: http://courses.cs.vt.edu/~cs3114/Spring11/P2sampleinputTree.pdf
 	 */
 	public static void main(String[] args) {	
-		Tree dnatree = new Tree("AAAA");
+		Tree dnaTree = new Tree("AAAA");
 		
-		dnatree.insert("ACGT");
-//		dnatree.print();
+		Queue<Operation> sampleOperations = new LinkedList<Operation>();
 		
-		dnatree.insert("AA");
-//		dnatree.print();
+		sampleOperations.add(new InsertOperation("ACGT"));
+//		sampleOperations.add(new PrintOperation());
 		
-		dnatree.insert("AAACCCCGGTGAAAACGTA");
-//		dnatree.print();
+		sampleOperations.add(new InsertOperation("AA"));
+//		sampleOperations.add(new PrintOperation());
 		
-		dnatree.insert("ACTGGGAA");
-//		dnatree.print();
+		sampleOperations.add(new InsertOperation("AAACCCCGGTGAAAACGTA"));
+//		sampleOperations.add(new PrintOperation());
 		
-		dnatree.remove("ACGT");
-//		dnatree.print();
+		sampleOperations.add(new InsertOperation("ACTGGGAA"));
+//		sampleOperations.add(new PrintOperation());
 		
-		dnatree.insert("ACCTT");		
-//		dnatree.print();
+		sampleOperations.add(new RemoveOperation("ACGT"));
+//		sampleOperations.add(new PrintOperation());
 		
-		dnatree.insert("ACTTA");
-//		dnatree.print();
+		sampleOperations.add(new InsertOperation("ACCTT"));		
+//		sampleOperations.add(new PrintOperation());
 		
-		dnatree.insert("TATA");
-//		dnatree.print();		
+		sampleOperations.add(new InsertOperation("ACTTA"));
+//		sampleOperations.add(new PrintOperation());
 		
-		dnatree.insert("TCG");
-//		dnatree.print();
-		dnatree.printLengths();
-		dnatree.printStats();
+		sampleOperations.add(new InsertOperation("TATA"));
+//		sampleOperations.add(new PrintOperation());		
+		
+		sampleOperations.add(new InsertOperation("TCG"));
+//		sampleOperations.add(new PrintOperation());
+		
+		sampleOperations.add(new PrintLengthsOperation());
+		sampleOperations.add(new PrintStatsOperation());
+		
+		dnaTree.executeOperations(sampleOperations);
 		
 	}
 }

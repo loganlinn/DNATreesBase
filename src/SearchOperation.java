@@ -27,8 +27,9 @@ public class SearchOperation extends Operation{
 	 * Run a search operation on the DNA tree's root
 	 */
 	@Override
-	public void execute(Node root) {
+	public Node execute(Node root) {
 		root.search(ROOT_LEVEL, mode, createSequence(sequenceDescriptor));
+		return root;
 	}
 
 }

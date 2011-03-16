@@ -70,7 +70,6 @@ public class SequenceLeafNode extends Node {
 		if(this.sequence.equals(sequence)){
 			return EmptyLeafNode.getInstance();
 		}else{
-			P2.out.println(this.sequence+" != "+sequence);
 			P2.Error.removeSequenceNotFound(sequence);
 			return this;
 		}

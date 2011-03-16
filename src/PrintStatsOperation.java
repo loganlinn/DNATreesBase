@@ -6,7 +6,10 @@
  */
 public class PrintStatsOperation extends PrintOperation{
 	/*
-	 * Override the mode property to print in stats mode
+	 * Change the mode property to print in stats mode
 	 */
-	private int mode = PRINT_MODE_STATS;
+	public PrintStatsOperation(){
+		this.mode = PRINT_MODE_STATS;
+	}
+	
 }

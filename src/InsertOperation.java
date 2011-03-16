@@ -18,8 +18,8 @@ public class InsertOperation extends Operation{
 	 * Give a new sequence to the root node
 	 */
 	@Override
-	public void execute(Node root) {
-		root.insert(createSequence(sequenceDescriptor));
+	public Node execute(Node root) {
+		return root.insert(createSequence(sequenceDescriptor));
 	}
 
 }

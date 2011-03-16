@@ -18,8 +18,8 @@ public class RemoveOperation extends Operation {
 	 * Call the remove method on the tree's root
 	 */
 	@Override
-	public void execute(Node root) {
-		root.remove(createSequence(sequenceDescriptor));
+	public Node execute(Node root) {
+		return root.remove(createSequence(sequenceDescriptor));
 	}
 
 }
