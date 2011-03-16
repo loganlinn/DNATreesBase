@@ -24,9 +24,9 @@ public class SequenceLeafNode extends Node {
 	public void print(int level, int mode) {
 		String sequenceValue = sequence.toString();
 		
-		if(mode == PRINT_MODE_LENGTHS){
+		if(mode == PrintOperation.PRINT_MODE_LENGTHS){
 			sequenceValue += ": length "+sequence.length();
-		}else if(mode == PRINT_MODE_STATS){
+		}else if(mode == PrintOperation.PRINT_MODE_STATS){
 			sequenceValue += ": "+sequence.stats();
 		}
 		

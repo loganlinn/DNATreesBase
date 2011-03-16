@@ -8,14 +8,10 @@ public abstract class Node {
 	public static final String LEVEL_INDENT = "  ";		// Value to print for indentations
 	public static final String INTERNAL_NODE = "I";		// Value to print for internal node
 	public static final String EMPTY_LEAF_NODE = "E";	// Value to print for empty leaf nodes
-	public static final int PRINT_MODE_NORMAL = 0;		// Passed to print for normal print mode
-	public static final int PRINT_MODE_LENGTHS = 1;		// Passed to print for lengths print mode
-	public static final int PRINT_MODE_STATS = 2;		// Passed to print for stats print mode
-	public static final int SEARCH_MODE_PREFIX = 0;
-	public static final int SEARCH_MODE_EXACT = 1;
 	
 	/**
 	 * Helper method to print value with indents
+	 * 
 	 * @param level
 	 */
 	protected static void indentedPrint(int level, String value){

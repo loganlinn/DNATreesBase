@@ -22,7 +22,7 @@ public class Tree{
 	 * 
 	 */
 	public void print() {
-		print(Node.PRINT_MODE_NORMAL);
+		print(PrintOperation.PRINT_MODE_NORMAL);
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class Tree{
 	 * 
 	 */
 	public void printLengths(){
-		print(Node.PRINT_MODE_LENGTHS);
+		print(PrintOperation.PRINT_MODE_LENGTHS);
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class Tree{
 	 * 
 	 */
 	public void printStats(){
-		print(Node.PRINT_MODE_STATS);
+		print(PrintOperation.PRINT_MODE_STATS);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class Tree{
 	 * @param sequenceDescriptor
 	 */
 	public void searchPrefix(String sequenceDescriptor){
-		search(Node.SEARCH_MODE_PREFIX, sequenceDescriptor);
+		search(SearchOperation.SEARCH_MODE_PREFIX, sequenceDescriptor);
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class Tree{
 	 * @param sequenceDescriptor
 	 */
 	public void searchExact(String sequenceDescriptor){
-		search(Node.SEARCH_MODE_EXACT, sequenceDescriptor);
+		search(SearchOperation.SEARCH_MODE_EXACT, sequenceDescriptor);
 	}
 	
 	/**
