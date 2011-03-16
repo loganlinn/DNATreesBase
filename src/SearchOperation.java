@@ -12,7 +12,7 @@ public class SearchOperation extends Operation{
 	public static final int SEARCH_MODE_EXACT = 1;
 	public static final int SEARCH_MODE_PREFIX = 0;
 	
-	private int mode;
+	private int mode = SEARCH_MODE_PREFIX; // Default mode
 	private String sequenceDescriptor;
 	
 	/**
@@ -20,17 +20,7 @@ public class SearchOperation extends Operation{
 	 * @param sequenceDescriptor
 	 */
 	public SearchOperation(String sequenceDescriptor){
-		this(sequenceDescriptor, SEARCH_MODE_PREFIX);
-	}
-	
-	/**
-	 * Protected constructor to hide the mode. This allow us to not have to validate the mode.
-	 * @param sequenceDescriptor
-	 * @param mode
-	 */
-	protected SearchOperation(String sequenceDescriptor, int mode){
 		this.sequenceDescriptor = sequenceDescriptor;
-		this.mode = mode;
 	}
 	
 	/**
