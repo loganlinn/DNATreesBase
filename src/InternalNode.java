@@ -152,13 +152,12 @@ public class InternalNode implements Node {
 			// Get the associated child node
 			Node child = getChild(sequenceChar);
 
-			// Determine if we have a prefix sequence
-			// - Check again (after taking sequenceChar) sequence has more
-			// characters
-			// - Check if we have other non-empty children that would prevent
-			// prefix on this level:
-			// -- If we have a prefix, but other children, we need to expand by
-			// inserting into the SequenceNode
+			/*
+			 * Determine if we have a prefix sequence
+			 * - Check again (after getting sequenceChar) if sequence has more characters
+			 * - Check if we have other non-empty children that would prevent prefix on this level:
+			 * -- If we have a prefix, but other children, we need to expand by inserting into the SequenceNode
+			 */
 			if (!sequence.hasNext()
 					&& (numNonEmptyLeafChildren() < MIN_NON_EMPTY_LEAF_CHILREN)) {
 				// TODO: Determine if there's a case where we should swap a
@@ -166,11 +165,10 @@ public class InternalNode implements Node {
 				insertPrefix(sequence);
 			} else {
 				/*
-				 * Assign the child to the result of inserting into it: - If
-				 * child is SequenceNode, insert will return the replacement
-				 * InternalNode - If child is Flyweight, insert will return new
-				 * SequenceNode - If child is InternalNode, insert will return
-				 * the same InternalNode
+				 * Assign the child to the result of inserting into it: 
+				 * - If child is SequenceNode, insert will return the replacement InternalNode
+				 * - If child is Flyweight, insert will return new SequenceNode
+				 * - If child is InternalNode, insert will return the same InternalNode
 				 */
 				setChild(sequenceChar, child.insert(sequence));
 			}

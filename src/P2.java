@@ -13,7 +13,9 @@ import java.io.PrintStream;
  * 	Tree data structure. The DNA tree is a 5-way branching tree wherein DNA
  * 	sequences are stored in the tree's leaf nodes and all internal nodes empty
  * 
- * 	Flyweight...
+ * TODO: Describe flyweight...
+ * 
+ * TODO: Describe command objects
  * 
  * USAGE
  * 
@@ -63,14 +65,14 @@ public class P2 {
 	 * OS: 			Mac OS X 10.6.6
 	 * 
 	 * Matthew Ibarra
-	 * COMPILER:	
-	 * OS:			
+	 * COMPILER:	TODO: fill out Matt's compiler
+	 * OS:			TODO: fill out Matt's OS
 	 * 
 	 * DATE-COMPLETED: 03/16/2010
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+		//TODO: get arguments, pass command file path to parser, pass commands to tree
 	}
 }
