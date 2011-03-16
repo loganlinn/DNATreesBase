@@ -3,7 +3,7 @@
  * @author loganlinn
  * 
  */
-public class SequenceLeafNode extends Node {
+public class SequenceLeafNode implements Node {
 	private Sequence sequence; // Sequence data contained in this node
 
 	/**

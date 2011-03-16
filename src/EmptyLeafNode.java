@@ -5,7 +5,7 @@
  * @author loganlinn
  * 
  */
-public class EmptyLeafNode extends Node {
+public class EmptyLeafNode implements Node {
 
 	private static EmptyLeafNode flyweight = null; // Single flyweight for all
 													// empty leaf nodes

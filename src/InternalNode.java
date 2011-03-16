@@ -4,7 +4,7 @@
  * @author loganlinn
  * 
  */
-public class InternalNode extends Node {
+public class InternalNode implements Node {
 	public static final int MIN_NON_EMPTY_LEAF_CHILREN = 2;
 
 	/*
