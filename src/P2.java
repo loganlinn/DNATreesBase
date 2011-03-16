@@ -59,14 +59,14 @@ public class P2 {
 	 */
 	/**
 	 * Logan Linn
-	 * COMPILER:	Eclipse
+	 * COMPILER:	Eclipse JDT
 	 * OS: 			Mac OS X 10.6.6
 	 * 
 	 * Matthew Ibarra
 	 * COMPILER:	
 	 * OS:			
 	 * 
-	 * DATE-COMPLETED
+	 * DATE-COMPLETED: 03/16/2010
 	 * 
 	 * @param args
 	 */

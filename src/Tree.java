@@ -74,8 +74,12 @@ public class Tree{
 		sampleOperations.add(new InsertOperation("TCG"));
 //		sampleOperations.add(new PrintOperation());
 		
-		sampleOperations.add(new PrintLengthsOperation());
-		sampleOperations.add(new PrintStatsOperation());
+//		sampleOperations.add(new PrintLengthsOperation());
+//		sampleOperations.add(new PrintStatsOperation());
+		
+		sampleOperations.add(new ExactSearchOperation("AAAA"));
+		sampleOperations.add(new SearchOperation("AA"));
+		sampleOperations.add(new ExactSearchOperation("ACGT"));
 		
 		dnaTree.executeOperations(sampleOperations);
 		

@@ -1,43 +1,157 @@
+import java.util.LinkedList;
+import java.util.List;
+
 /**
- * SearchOperation executes the root node's search operation to find a matching sequences.
- * There can be 2 different types of SearchOperations
- * - Normal: looks for all sequences in the tree which sequenceDescriptor is a prefix (including exact matches)
- * - Exact: only finds exact matches to the sequenceDescriptor in the tree.
+ * SearchOperation executes the root node's search operation to find a matching
+ * sequences. There can be 2 different types of SearchOperations - Normal: looks
+ * for all sequences in the tree which sequenceDescriptor is a prefix (including
+ * exact matches) - Exact: only finds exact matches to the sequenceDescriptor in
+ * the tree.
  * 
  * @author loganlinn
- *
+ * 
  */
-public class SearchOperation extends Operation{
-	private static final int ROOT_LEVEL = 0; 
+public class SearchOperation extends Operation {	
 	public static final int SEARCH_MODE_EXACT = 1;
 	public static final int SEARCH_MODE_PREFIX = 0;
-	
+
 	private int mode = SEARCH_MODE_PREFIX; // Default mode
-	private String sequenceDescriptor;
-	
+	private Sequence searchSequence;
+	private int numNodesVisited;
+	private List<Sequence> matches;
+
 	/**
-	 * Creates a default search operation (prefix mode) with the given searchDescriptor
+	 * Creates a default search operation (prefix mode) with the given
+	 * searchDescriptor
+	 * 
 	 * @param sequenceDescriptor
 	 */
-	public SearchOperation(String sequenceDescriptor){
-		this.sequenceDescriptor = sequenceDescriptor;
+	public SearchOperation(String sequenceDescriptor) {
+		this.searchSequence = createSequence(sequenceDescriptor);
 	}
-	
+
 	/**
 	 * Run a search operation on the DNA tree's root
 	 */
 	@Override
 	public Node execute(Node root) {
-		root.search(ROOT_LEVEL, mode, createSequence(sequenceDescriptor));
+		// Instantiate the members to record search progress prior to execution
+		numNodesVisited = 0;
+		matches = new LinkedList<Sequence>();
+		// Call the search method on the root node, passing this
+		root.search(this);
+		// Report the results
+		reportResults();
+		// Search operation doesn't change tree structure -> return the root back to itself
 		return root;
 	}
 	
 	/**
+	 * Convenience method to directly increment the number of nodes visited by 1.
+	 * This is called when the search visists a new node in the tree 
+	 */
+	public void incrementNodesVisited(){
+		this.numNodesVisited++;
+	}
+	
+	/**
+	 * Convenience method to directly add a sequence to the list of found sequences
+	 * 
+	 * @param matchedSequence
+	 */
+	public void matchFound(Sequence matchedSequence){
+		this.matches.add(matchedSequence);
+	}
+	
+	/**
+	 * Returns if this search operation needs to match the searchSequence exactly
+	 * @return
+	 */
+	public boolean matchExact(){
+		return (mode == SEARCH_MODE_EXACT);
+	}
+	
+	/**
+	 * Outputs results for this search command
+	 * Called when the search has completed
+	 */
+	public void reportResults(){
+		out.println("# of nodes visisted: "+this.numNodesVisited);
+		if(matches.isEmpty()){
+			// Print a message if we don't have any matches
+			out.println("no sequence found");
+		}else{
+			// Else, print out all of the matches
+			for(Sequence matchedSequence : matches){
+				out.println("sequence: "+matchedSequence.toString());
+			}
+		}
+		
+	}
+	
+	/**
 	 * Outputs a message when a sequence is not found
+	 * 
 	 * @param sequence
 	 */
-	public static void sequenceNotFound(Sequence sequence){
-		out.println("Could not find sequence, \""+sequence+"\", during serach.");
+	public static void sequenceNotFound(Sequence sequence) {
+		out.println("Could not find sequence, \"" + sequence
+				+ "\", during serach.");
 	}
 
+	/**
+	 * @return the mode
+	 */
+	public int getMode() {
+		return mode;
+	}
+
+	/**
+	 * @param mode the mode to set
+	 */
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
+
+	/**
+	 * @return the searchSequence
+	 */
+	public Sequence getSearchSequence() {
+		return searchSequence;
+	}
+
+	/**
+	 * @param searchSequence the searchSequence to set
+	 */
+	public void setSearchSequence(Sequence searchSequence) {
+		this.searchSequence = searchSequence;
+	}
+
+	/**
+	 * @return the numNodesVisited
+	 */
+	public int getNumNodesVisited() {
+		return numNodesVisited;
+	}
+
+	/**
+	 * @param numNodesVisited the nodesVisited to set
+	 */
+	public void setNumNodesVisited(int nodesVisited) {
+		this.numNodesVisited = nodesVisited;
+	}
+
+	/**
+	 * @return the matches
+	 */
+	public List<Sequence> getMatches() {
+		return matches;
+	}
+
+	/**
+	 * @param matches the matches to set
+	 */
+	public void setMatches(List<Sequence> matches) {
+		this.matches = matches;
+	}
 }
