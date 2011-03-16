@@ -7,7 +7,6 @@ import java.util.Queue;
  *
  */
 public class Tree{
-	private final static int ROOT_LEVEL = 0; // Numerical value for level of the root node
 	private Node root = null;	// Root of tree
 	
 	/**

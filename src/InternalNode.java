@@ -26,12 +26,8 @@ public class InternalNode implements Node {
 	 */
 	public InternalNode(SequenceLeafNode existingSequenceNode,
 			Sequence newSequence) {
-		final Sequence existingSequence = existingSequenceNode.getSequence(); // get
-																				// reference
-																				// to
-																				// existing
-																				// node's
-																				// sequence
+		// get reference to existing node's sequence
+		final Sequence existingSequence = existingSequenceNode.getSequence();
 
 		if (existingSequence.hasNext()) {
 			final char existingSequenceChar = existingSequence.next();
@@ -254,7 +250,7 @@ public class InternalNode implements Node {
 		searchData.incrementNodesVisited();
 
 		final Sequence searchSequence = searchData.getSearchSequence();
-		
+
 		// Check if we have seen all of the characters in the searchSequence
 		if (searchSequence.hasNext()) {
 			/*
