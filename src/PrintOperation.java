@@ -4,7 +4,10 @@
  *
  */
 public class PrintOperation extends Operation{
-	private static final int ROOT_LEVEL = 0;
+	private static final int ROOT_LEVEL = 0;			// First level to pass the root during print
+	public static final String LEVEL_INDENT = "  ";		// Value to print for indentations
+	public static final String INTERNAL_NODE = "I";		// Value to print for internal node
+	public static final String EMPTY_LEAF_NODE = "E";	// Value to print for empty leaf nodes
 	public static final int PRINT_MODE_NORMAL = 0;		// Passed to print for normal print mode
 	public static final int PRINT_MODE_LENGTHS = 1;		// Passed to print for lengths print mode
 	public static final int PRINT_MODE_STATS = 2;		// Passed to print for stats print mode
@@ -24,6 +27,45 @@ public class PrintOperation extends Operation{
 	@Override
 	public Node execute(Node root) {
 		root.print(ROOT_LEVEL, mode);
+		out.println();	// print an empty line for readability
 		return root;
+	}
+	
+	/**
+	 * Print the representation of an InternalNode at a specific indent level
+	 * @param level
+	 */
+	public static void printInternalNode(int level){
+		indentedPrint(level, INTERNAL_NODE);
+	}
+	
+	/**
+	 * Print the representation of an EmptyLeafNode at a specific indent level
+	 * @param level
+	 */
+	public static void printEmptyLeafNode(int level){
+		indentedPrint(level, EMPTY_LEAF_NODE);
+	}
+	
+	/**
+	 * Print the representation of an SequenceLeafNode at a specific indent level
+	 * @param level
+	 */
+	public static void printSequenceLeafNode(int level, String printSequence){
+		indentedPrint(level, printSequence);
+	}
+	
+	/**
+	 * Helper method to print value with indents
+	 * 
+	 * @param level
+	 */
+	protected static void indentedPrint(int level, String value){
+		// Print the indents
+		for(int i = 0; i < level; i++){
+			PrintOperation.out.print(LEVEL_INDENT);
+		}
+		// Print the value
+		PrintOperation.out.println(value);
 	}
 }

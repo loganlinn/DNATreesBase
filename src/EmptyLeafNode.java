@@ -43,7 +43,7 @@ public class EmptyLeafNode extends Node {
 
 	@Override
 	public void print(int level, int mode) {
-		indentedPrint(level, EMPTY_LEAF_NODE);
+		PrintOperation.printEmptyLeafNode(level);
 	}
 
 	/**

@@ -29,7 +29,7 @@ public class SequenceLeafNode extends Node {
 			sequenceValue += ": " + sequence.stats();
 		}
 
-		indentedPrint(level, sequenceValue);
+		PrintOperation.printSequenceLeafNode(level, sequenceValue);
 	}
 
 	/**

@@ -133,7 +133,7 @@ public class InternalNode extends Node {
 	@Override
 	public void print(int level, int mode) {
 		// Visit self
-		indentedPrint(level, INTERNAL_NODE);
+		PrintOperation.printInternalNode(level);
 		// Visit children left to right: indent
 		level++;
 		A.print(level, mode);

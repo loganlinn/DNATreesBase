@@ -14,7 +14,10 @@ import java.util.List;
 public class SearchOperation extends Operation {	
 	public static final int SEARCH_MODE_EXACT = 1;
 	public static final int SEARCH_MODE_PREFIX = 0;
-
+	private static final String EMPTY_MATCHES_MESSAGE = "no sequence founds";
+	private static final String MATCH_FOUND_PREFIX = "sequence: ";
+	private static final String NODES_VISITED_PREFIX = "# of nodes visisted: ";
+	
 	private int mode = SEARCH_MODE_PREFIX; // Default mode
 	private Sequence searchSequence;
 	private int numNodesVisited;
@@ -42,6 +45,7 @@ public class SearchOperation extends Operation {
 		root.search(this);
 		// Report the results
 		reportResults();
+		out.println();	// print an empty line for readability
 		// Search operation doesn't change tree structure -> return the root back to itself
 		return root;
 	}
@@ -76,27 +80,17 @@ public class SearchOperation extends Operation {
 	 * Called when the search has completed
 	 */
 	public void reportResults(){
-		out.println("# of nodes visisted: "+this.numNodesVisited);
+		out.println(NODES_VISITED_PREFIX+this.numNodesVisited);
 		if(matches.isEmpty()){
 			// Print a message if we don't have any matches
-			out.println("no sequence found");
+			out.println(EMPTY_MATCHES_MESSAGE);
 		}else{
 			// Else, print out all of the matches
 			for(Sequence matchedSequence : matches){
-				out.println("sequence: "+matchedSequence.toString());
+				out.println(MATCH_FOUND_PREFIX+matchedSequence.toString());
 			}
 		}
 		
-	}
-	
-	/**
-	 * Outputs a message when a sequence is not found
-	 * 
-	 * @param sequence
-	 */
-	public static void sequenceNotFound(Sequence sequence) {
-		out.println("Could not find sequence, \"" + sequence
-				+ "\", during serach.");
 	}
 
 	/**
