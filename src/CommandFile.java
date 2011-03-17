@@ -35,8 +35,6 @@ public class CommandFile {
 	private String commandFilePath; // Path to command file
 	private Queue<Command> commandList; // Collection of commands extracted from
 										// command file
-	private String firstSequence; // The sequence descriptor of the first insert
-									// command -- used to construct Tree
 	private int lineNumber = 0; // Tracks which line of the command file we are parsing
 	
 	/**
@@ -144,25 +142,6 @@ public class CommandFile {
 			}
 		}
 		
-		/*
-		 * Command files should begin with an insert command The Tree
-		 * constructor accepts a sequence descriptor Extract the first insert
-		 * command and store it
-		 */
-		if (!commandList.isEmpty()) {
-			Command firstOperation;
-			do {
-				firstOperation = commandList.remove();
-			} while (!(firstOperation instanceof InsertCommand)
-					&& !commandList.isEmpty());
-
-			if (firstOperation instanceof InsertCommand) {
-				firstSequence = ((InsertCommand) firstOperation).getSequence()
-						.toString();
-			} else {
-				throw new P2Exception(NO_INSERT_COMMAND_FOUND_ERROR+getLineNumberMessage());
-			}
-		}
 	}
 	private String getLineNumberMessage(){
 		return LINE_NUMBER_MESSAGE_PREFIX + lineNumber + LINE_NUMBER_MESSAGE_SUFFIX;
@@ -197,18 +176,4 @@ public class CommandFile {
 		this.commandList = commandList;
 	}
 
-	/**
-	 * @return the firstSequence
-	 */
-	public String getFirstSequence() {
-		return firstSequence;
-	}
-
-	/**
-	 * @param firstSequence
-	 *            the firstSequence to set
-	 */
-	public void setFirstSequence(String firstSequence) {
-		this.firstSequence = firstSequence;
-	}
 }

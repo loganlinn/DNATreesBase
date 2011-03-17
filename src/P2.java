@@ -28,9 +28,17 @@ import java.io.PrintStream;
  * the only type of node that can be inserted or deleted by a command.
  * 
  * The tree's hierarchy is similar to that of a trie. All the descendants of a
- * node have a common prefix of the DNA sequence associated with that node.
+ * node have a common prefix of the DNA sequence associated with that node. As
+ * sequences are insert into the tree each InternalNode looks at the next
+ * character (starting from the first) in the sequence to determine which child
+ * to insert into. All tree operations are implemented recursively.
  * 
- * TODO: Describe command objects
+ * Tree commands are implemented using the {@link Command} interface using the
+ * "command design pattern". The {@link Command#execute(Node)} method is passed
+ * the root of the tree to call call one of the recursive operations on. A file
+ * containing a sequence of commands is converted to a Command objects and
+ * stored in a queue. This structure encapsulates the functionality and
+ * resources required to execute an arbitrary list of commands.
  * 
  * == USAGE ==
  * 
@@ -40,10 +48,10 @@ import java.io.PrintStream;
  * 
  * The command file contains a list of commands and sequences descriptors to
  * control the DNA tree operations. The valid commands are defined in the
- * following section. The command file must contain at least 1 insert statement.
- * Sequences described in commands must only contain characters in the DNA
- * alphabet (A, C, G, T). The parser is tolerant of spaces or other whitespace
- * in the command file, however commands are separated by new line characters.
+ * following section. Sequences described in commands must only contain
+ * characters in the DNA alphabet (A, C, G, T). The parser is tolerant of spaces
+ * or other whitespace in the command file, however commands are separated by
+ * new line characters.
  * 
  * == COMMANDS ==
  * 
@@ -117,9 +125,9 @@ public class P2 {
 		}
 
 		/*
-		 * Create tree with the first sequence
+		 * Create empty tree
 		 */
-		Tree dnaTree = new Tree(commandFile.getFirstSequence());
+		Tree dnaTree = new Tree();
 
 		/*
 		 * Execute the remaining commands from the command file
