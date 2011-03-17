@@ -4,14 +4,15 @@
  *
  */
 public class RemoveOperation extends Operation {
-	private String sequenceDescriptor;
+	private Sequence sequence;
 	
 	/**
 	 * Construct a RemoveOperation given a sequenceDescriptor
 	 * @param sequenceDescriptor
+	 * @throws SequenceException 
 	 */
-	public RemoveOperation(String sequenceDescriptor){
-		this.sequenceDescriptor = sequenceDescriptor;
+	public RemoveOperation(String sequenceDescriptor) throws SequenceException{
+		sequence = createSequence(sequenceDescriptor);
 	}
 	
 	/**
@@ -19,7 +20,7 @@ public class RemoveOperation extends Operation {
 	 */
 	@Override
 	public Node execute(Node root) {
-		return root.remove(createSequence(sequenceDescriptor));
+		return root.remove(sequence);
 	}
 	
 	/**

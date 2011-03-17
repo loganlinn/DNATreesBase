@@ -18,15 +18,4 @@ public interface Sequence {
 	public String getSequence();	// provides the sequence as a String
 	public int length();			// provides length of sequence
 	public String stats();			// provides formatting string with percentages of character representation
-	
-	/**
-	 * SequenceException is thrown when an invalid sequence is detected (used during parsing)
-	 * @author loganlinn
-	 *
-	 */
-	public static class SequenceException extends Exception{
-		public SequenceException(String sequenceDescriptor){
-			super("Invalid sequence, \""+sequenceDescriptor+"\"");
-		}
-	}
 }

@@ -28,9 +28,10 @@ public class SearchOperation extends Operation {
 	 * searchDescriptor
 	 * 
 	 * @param sequenceDescriptor
+	 * @throws SequenceException 
 	 */
-	public SearchOperation(String sequenceDescriptor) {
-		this.searchSequence = createSequence(sequenceDescriptor);
+	public SearchOperation(String sequenceDescriptor) throws SequenceException {
+		searchSequence = createSequence(sequenceDescriptor);
 	}
 
 	/**

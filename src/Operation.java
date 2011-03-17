@@ -26,8 +26,15 @@ public abstract class Operation {
 	 * 
 	 * @param sequenceDescriptor
 	 * @return
+	 * @throws SequenceException 
 	 */
-	protected static Sequence createSequence(String sequenceDescriptor){
+	protected static Sequence createSequence(String sequenceDescriptor) throws SequenceException{
+		if(sequenceDescriptor == null){
+			throw new SequenceException(sequenceDescriptor);
+		}else if(sequenceDescriptor.matches("![ACGT]")){
+			throw new SequenceException(sequenceDescriptor);
+		}
+		//TODO: regular expression the sequence descriptor for valid alpahbet
 		return new ArraySequence(sequenceDescriptor);
 	}
 	

@@ -2,89 +2,195 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 /**
  * Represents and parses a command file passed to the program
- * @author loganlinn
- * open the file
-
-and create a LinkedList
-
-and start filling it with Operations
-
-we will call that function from P2's main method
+ * 
+ * @author loganlinn open the file
+ * 
+ *         and create a LinkedList
+ * 
+ *         and start filling it with Operations
+ * 
+ *         we will call that function from P2's main method
  */
 public class CommandFile {
+	private static final String INSERT_COMMAND = "insert";
+	private static final String REMOVE_COMMAND = "remove";
+	private static final String PRINT_COMMAND = "print";
+	private static final String SEARCH_COMMAND = "search";
+	private static final String PRINT_LENGTHS_ARGUMENT = "lengths";
+	private static final String PRINT_STATS_ARGUMENT = "stats";
+	private static final String SEARCH_EXACT_SUFFIX = "$";
 	private String commandFilePath;
-	private ArrayList<Command> commands;
-	private ArrayList<String> commandList;
+	private Queue<Operation> commandList;
+	private String firstSequence;
 	
 	/**
 	 * Constructs a CommandFile given the path to a command file
+	 * 
 	 * @param path
 	 */
-	public CommandFile(String path){
+	public CommandFile(String path) {
 		commandFilePath = path;
-		
+	}
+
+	/**
+	 * 
+	 * @param tokenizer
+	 * @return
+	 */
+	private String getNextArgument(StringTokenizer tokenizer) {
+		if (tokenizer.hasMoreTokens()) {
+			return tokenizer.nextToken();
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Parses the command file
+	 * @throws SequenceException 
+	 * @throws IOException 
+	 * @throws P2Exception 
+	 */
+	public void parse() throws SequenceException, IOException, P2Exception {
+		commandList = new LinkedList<Operation>();
+
+		File commandFile = new File(this.commandFilePath);
+		FileInputStream fileStream;
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				new DataInputStream(new FileInputStream(commandFile))));
+		String line, argument;
+		boolean commandHasArgument;
+		while ((line = br.readLine()) != null) {
+			StringTokenizer lineTokens = new StringTokenizer(line);
+			if (lineTokens.hasMoreTokens()) {
+				String command = lineTokens.nextToken();
+
+				if (INSERT_COMMAND.equals(command)) {
+					/*
+					 * Insert command
+					 */
+					argument = getNextArgument(lineTokens);
+					commandList.add(new InsertOperation(argument));
+				} else if (REMOVE_COMMAND.equals(command)) {
+					/*
+					 * Remove command
+					 */
+					argument = getNextArgument(lineTokens);
+					commandList.add(new RemoveOperation(argument));
+				} else if (PRINT_COMMAND.equals(command)) {
+					/*
+					 * Print command, find the mode
+					 */
+					argument = getNextArgument(lineTokens);
+					if (argument == null) {
+						// regular print command
+						commandList.add(new PrintOperation());
+					} else if (PRINT_LENGTHS_ARGUMENT.equals(argument)) {
+						// print lengths command
+						commandList.add(new PrintLengthsOperation());
+					} else if (PRINT_STATS_ARGUMENT.equals(argument)) {
+						// print stats command
+						commandList.add(new PrintStatsOperation());
+					} else {
+						throw new P2Exception("Unknown print command");
+					}
+				} else if (SEARCH_COMMAND.equals(command)) {
+					argument = getNextArgument(lineTokens);
+					// Check the sequenceDescriptor if it has a $ suffix
+					if (argument != null) {
+						if (argument.endsWith(SEARCH_EXACT_SUFFIX)) {
+							commandList.add(new ExactSearchOperation(argument
+									.substring(0, argument.length() - 2)));
+						} else {
+							commandList.add(new SearchOperation(argument));
+						}
+					}
+				} else {
+					throw new P2Exception("Unknown command");
+				}
+
+			}
+		}
+		if(!commandList.isEmpty()){
+			Operation firstOperation = commandList.remove();
+			if(firstOperation instanceof InsertOperation){
+				firstSequence = ((InsertOperation) firstOperation).getSequence().toString();
+			}else{
+				throw new P2Exception("First command must be an insert.");
+			}
+		}
+	}
+
+	/**
+	 * @return the commandFilePath
+	 */
+	public String getCommandFilePath() {
+		return commandFilePath;
+	}
+
+	/**
+	 * @param commandFilePath the commandFilePath to set
+	 */
+	public void setCommandFilePath(String commandFilePath) {
+		this.commandFilePath = commandFilePath;
+	}
+
+	/**
+	 * @return the commandList
+	 */
+	public Queue<Operation> getCommandList() {
+		return commandList;
+	}
+
+	/**
+	 * @param commandList the commandList to set
+	 */
+	public void setCommandList(Queue<Operation> commandList) {
+		this.commandList = commandList;
 	}
 	
 	/**
-	 * Parses the command file
+	 * @return the firstSequence
 	 */
-	public void parse() {
-		File commandFile = new File(this.commandFilePath);
-		FileInputStream fileStream;
+	public String getFirstSequence() {
+		return firstSequence;
+	}
+
+	/**
+	 * @param firstSequence the firstSequence to set
+	 */
+	public void setFirstSequence(String firstSequence) {
+		this.firstSequence = firstSequence;
+	}
+	
+	public static void main(String[] arg) {
+		CommandFile cf = new CommandFile("P2sampleinput.txt");
 		try {
-			fileStream = new FileInputStream(commandFile);
-			DataInputStream dataInputStream = new DataInputStream(fileStream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(dataInputStream));
-			String line;
-			while ((line = br.readLine()) != null)	{
-				this.commandList.add(line);
-			}
-			for(int i = 0; i < this.commandList.size(); i++)	{
-				String temp = this.commandList.get(i);
-				StringTokenizer a = new StringTokenizer(temp);
-				temp = a.nextToken();
-				if(temp == "insert")	{
-					temp = a.nextToken().trim();
-					// add correct value check!
-					this.commandList.add(i, "insert "+temp);
-				}
-				else if (temp == "remove")	{
-					temp = a.nextToken().trim();
-					this.commandList.add(i, "remove "+temp);
-				}
-				else if (temp == "print")	{
-					if (a.hasMoreTokens())	{
-						temp = a.nextToken().trim();
-						this.commandList.add(i, "print "+temp);
-					}
-					else	{
-						this.commandList.add("print");
-					}
-				}
-				else if (temp == "search")	{
-					temp = a.nextToken().trim();
-					this.commandList.add(i, "search "+temp);
-				}
-				else	{
-					//There is a problem with the file if this happens I'm pretty sure.
-				}
-			}
-		} catch (FileNotFoundException e1) {
+			cf.parse();
+		} catch (SequenceException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		catch (IOException e) {
+			e.printStackTrace();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (P2Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Tree t = new Tree(cf.getFirstSequence());
+		
+		t.executeOperations(cf.getCommandList());
 	}
 }

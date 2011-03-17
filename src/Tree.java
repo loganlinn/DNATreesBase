@@ -42,45 +42,45 @@ public class Tree{
 	 * Sample test: http://courses.cs.vt.edu/~cs3114/Spring11/P2sampleinputTree.pdf
 	 */
 	public static void main(String[] args) {	
-		Tree dnaTree = new Tree("AAAA");
-		
-		Queue<Operation> sampleOperations = new LinkedList<Operation>();
-		
-		sampleOperations.add(new InsertOperation("ACGT"));
-//		sampleOperations.add(new PrintOperation());
-		
-		sampleOperations.add(new InsertOperation("AA"));
-//		sampleOperations.add(new PrintOperation());
-		
-		sampleOperations.add(new InsertOperation("AAACCCCGGTGAAAACGTA"));
-//		sampleOperations.add(new PrintOperation());
-		
-		sampleOperations.add(new InsertOperation("ACTGGGAA"));
-//		sampleOperations.add(new PrintOperation());
-		
-		sampleOperations.add(new RemoveOperation("ACGT"));
-//		sampleOperations.add(new PrintOperation());
-		
-		sampleOperations.add(new InsertOperation("ACCTT"));		
-//		sampleOperations.add(new PrintOperation());
-		
-		sampleOperations.add(new InsertOperation("ACTTA"));
-//		sampleOperations.add(new PrintOperation());
-		
-		sampleOperations.add(new InsertOperation("TATA"));
-//		sampleOperations.add(new PrintOperation());		
-		
-		sampleOperations.add(new InsertOperation("TCG"));
-//		sampleOperations.add(new PrintOperation());
-		
-//		sampleOperations.add(new PrintLengthsOperation());
-		sampleOperations.add(new PrintStatsOperation());
-		
-		sampleOperations.add(new ExactSearchOperation("AAAA"));
-		sampleOperations.add(new SearchOperation("AA"));
-		sampleOperations.add(new ExactSearchOperation("ACGT"));
-		
-		dnaTree.executeOperations(sampleOperations);
+//		Tree dnaTree = new Tree("AAAA");
+//		
+//		Queue<Operation> sampleOperations = new LinkedList<Operation>();
+//		
+//		sampleOperations.add(new InsertOperation("ACGT"));
+////		sampleOperations.add(new PrintOperation());
+//		
+//		sampleOperations.add(new InsertOperation("AA"));
+////		sampleOperations.add(new PrintOperation());
+//		
+//		sampleOperations.add(new InsertOperation("AAACCCCGGTGAAAACGTA"));
+////		sampleOperations.add(new PrintOperation());
+//		
+//		sampleOperations.add(new InsertOperation("ACTGGGAA"));
+////		sampleOperations.add(new PrintOperation());
+//		
+//		sampleOperations.add(new RemoveOperation("ACGT"));
+////		sampleOperations.add(new PrintOperation());
+//		
+//		sampleOperations.add(new InsertOperation("ACCTT"));		
+////		sampleOperations.add(new PrintOperation());
+//		
+//		sampleOperations.add(new InsertOperation("ACTTA"));
+////		sampleOperations.add(new PrintOperation());
+//		
+//		sampleOperations.add(new InsertOperation("TATA"));
+////		sampleOperations.add(new PrintOperation());		
+//		
+//		sampleOperations.add(new InsertOperation("TCG"));
+////		sampleOperations.add(new PrintOperation());
+//		
+////		sampleOperations.add(new PrintLengthsOperation());
+//		sampleOperations.add(new PrintStatsOperation());
+//		
+//		sampleOperations.add(new ExactSearchOperation("AAAA"));
+//		sampleOperations.add(new SearchOperation("AA"));
+//		sampleOperations.add(new ExactSearchOperation("ACGT"));
+//		
+//		dnaTree.executeOperations(sampleOperations);
 		
 	}
 }

@@ -9,8 +9,9 @@ public class ExactSearchOperation extends SearchOperation {
 	/**
 	 * Construct an ExactSearchOperation given a sequenceDescriptor and pass the appropriate superclass' 
 	 * @param sequenceDescriptor
+	 * @throws SequenceException 
 	 */
-	public ExactSearchOperation(String sequenceDescriptor){
+	public ExactSearchOperation(String sequenceDescriptor) throws SequenceException{
 		super(sequenceDescriptor);
 	}
 }

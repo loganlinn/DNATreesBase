@@ -4,14 +4,15 @@
  *
  */
 public class InsertOperation extends Operation{
-	private String sequenceDescriptor;
+	private Sequence sequence;
 	
 	/**
 	 * Construct an InsertOperation from a sequenceDescriptor
 	 * @param sequenceDescriptor
+	 * @throws SequenceException 
 	 */
-	public InsertOperation(String sequenceDescriptor){
-		this.sequenceDescriptor = sequenceDescriptor;
+	public InsertOperation(String sequenceDescriptor) throws SequenceException{
+		sequence = createSequence(sequenceDescriptor);
 	}
 	
 	/**
@@ -19,7 +20,7 @@ public class InsertOperation extends Operation{
 	 */
 	@Override
 	public Node execute(Node root) {
-		return root.insert(createSequence(sequenceDescriptor));
+		return root.insert(sequence);
 	}
 	
 	/**
@@ -29,6 +30,20 @@ public class InsertOperation extends Operation{
 	 */
 	public static void duplicateSequence(Sequence sequence){
 		out.println("ERROR: Sequence, \""+sequence.toString()+"\" already exists in DNA Tree.");
+	}
+
+	/**
+	 * @return the sequence
+	 */
+	public Sequence getSequence() {
+		return sequence;
+	}
+
+	/**
+	 * @param sequence the sequence to set
+	 */
+	public void setSequence(Sequence sequence) {
+		this.sequence = sequence;
 	}
 
 }
