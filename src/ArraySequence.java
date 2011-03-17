@@ -154,7 +154,7 @@ public class ArraySequence implements Sequence{
 
 	@Override
 	public boolean isPrefixOf(Sequence otherSequence) {
-		return otherSequence.toString().startsWith(characters.toString());
+		return otherSequence.toString().startsWith(new String(characters));
 	}
 
 }

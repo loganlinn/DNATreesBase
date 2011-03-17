@@ -1,5 +1,18 @@
-insert AAAA
-insert AAAAA
 insert AAA
+remove AAA
+insert AAAAA
+remove AAAAA
+insert A
+insert G
+insert C
+insert T
+insert AA
+insert GG
+insert CC
+insert TT
+insert TA
+insert TC
+insert TG
+insert TTT
 print
-  
+              

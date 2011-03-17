@@ -49,13 +49,14 @@ public class SequenceLeafNode implements Node {
 		// At least one of the sequences should have more characters.
 		// If they don't that indicates a duplicate. We could also compare
 		// sequences here
-		if (this.sequence.hasNext() || sequence.hasNext()) {
-			// Return the new InternalNode to move this SequenceNode down
-			return new InternalNode(this, sequence);
-		} else {
+		if (this.sequence.equals(sequence)) {
 			// Otherwise, we must have the identical sequence
 			InsertOperation.duplicateSequence(sequence);
+			// Return this so not modify tree structure
 			return this;
+		} else {
+			// Return the new InternalNode to move this SequenceNode down
+			return new InternalNode(this, sequence);
 		}
 	}
 
