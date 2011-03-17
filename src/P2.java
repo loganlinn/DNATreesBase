@@ -4,6 +4,8 @@ import java.io.PrintStream;
 /**
  * === CS3114 Project 2 - DNA Trees ===
  * 
+ * AUTHORS: Logan Linn, Matthew Ibarra
+ * 
  * DUE Thursday, March 17, 2011, 11:00 PM
  * 
  * == DESCRIPTION ==
