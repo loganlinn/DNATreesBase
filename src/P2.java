@@ -72,7 +72,10 @@ import java.io.PrintStream;
  * @author matthewibarra
  */
 public class P2 {
-	/*
+	/* Message for output to display appropriate usage */
+	private static final String PROGRAM_USAGE_MESSAGE = "usage: P2 <command-file>";
+
+	/**
 	 * On my honor:
 	 * 
 	 * - I have not used source code obtained from another student, or any other
@@ -90,25 +93,40 @@ public class P2 {
 	 * writes anything during the discussion or modifies any computer file
 	 * during the discussion. I have violated neither in the spirit nor the
 	 * letter of this restriction.
-	 */
-	/**
-	 * Logan Linn COMPILER: Eclipse JDT OS: Mac OS X 10.6.6
 	 * 
-	 * Matthew Ibarra COMPILER: Eclipse JDT OS: Mac OS X 10.6.6
+	 * == Logan Linn ==
 	 * 
-	 * DATE-COMPLETED: 03/16/2010
+	 * COMPILER: Eclipse JDT
+	 * 
+	 * OS: Mac OS X 10.6.6
+	 * 
+	 * == Matthew Ibarra ==
+	 * 
+	 * COMPILER: Eclipse JDT
+	 * 
+	 * OS: Mac OS X 10.6.6
+	 * 
+	 * == DATE COMPLETED ==
+	 * 
+	 * March 16, 2010
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] arg) {
-		// if(arg.length < 1){
-		// System.out.println("usage: P2 <command-file>");
-		// return;
-		// }
-		// String commandFilePath = arg[0];
-		String commandFilePath = "P2sampleinput.txt";
+		/*
+		 * Check of arguments
+		 */
+		if (arg.length < 1) {
+			System.out.println(PROGRAM_USAGE_MESSAGE);
+			return;
+		}
+		
+		String commandFilePath = arg[0];
+		
+		/* Instantiate a new CommandFile with the path to the command file */
 		CommandFile commandFile = new CommandFile(commandFilePath);
-		/**
+
+		/*
 		 * Attempt to parse the command file, catching any errors
 		 */
 		try {
