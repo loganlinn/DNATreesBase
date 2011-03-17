@@ -1,7 +1,11 @@
 /**
  * 
  * @author loganlinn
+ * @author matthewibarra
  *
+ * PrintCommand class is a class that extends the Command class.
+ * This class will be accessed when it has been determined that the print command was one of the commands found inside the parsed file.
+ * This allows output of the data in the DNATree.
  */
 public class PrintCommand extends Command{
 	private static final int ROOT_LEVEL = 0;			// First level to pass the root during print

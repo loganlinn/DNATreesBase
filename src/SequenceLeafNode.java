@@ -1,7 +1,10 @@
 /**
  * 
  * @author loganlinn
+ * @author matthewibarra
  * 
+ * SequenceLeafNode is a class that implements the Node class.
+ * This is the class that creates the leaf node which contains a sequnce that has been added to the DNA Tree.
  */
 public class SequenceLeafNode implements Node {
 	private Sequence sequence; // Sequence data contained in this node

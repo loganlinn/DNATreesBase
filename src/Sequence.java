@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface Sequence {
 	public static final char[] ALPHABET = {'A','C','G','T'};
-	public static final String RE_ALPHABET = "[ACGT]+";
+	public static final String RE_ALPHABET = "[ACGT]+"; //regex needed for checking the parsed in data from the command file.
 	public char next();				// provides next character in sequence
 	public char prev();				// provides previous character in sequence 
 	public char current();			// provides current character in sequence
