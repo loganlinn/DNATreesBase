@@ -31,7 +31,7 @@ public class CommandFile {
 	private String commandFilePath;
 	private Queue<Operation> commandList;
 	private String firstSequence;
-	
+
 	/**
 	 * Constructs a CommandFile given the path to a command file
 	 * 
@@ -56,9 +56,10 @@ public class CommandFile {
 
 	/**
 	 * Parses the command file
-	 * @throws SequenceException 
-	 * @throws IOException 
-	 * @throws P2Exception 
+	 * 
+	 * @throws SequenceException
+	 * @throws IOException
+	 * @throws P2Exception
 	 */
 	public void parse() throws SequenceException, IOException, P2Exception {
 		commandList = new LinkedList<Operation>();
@@ -116,16 +117,17 @@ public class CommandFile {
 						}
 					}
 				} else {
-					throw new P2Exception("Unknown command");
+					throw new P2Exception("Unknown command, " + command);
 				}
 
 			}
 		}
-		if(!commandList.isEmpty()){
+		if (!commandList.isEmpty()) {
 			Operation firstOperation = commandList.remove();
-			if(firstOperation instanceof InsertOperation){
-				firstSequence = ((InsertOperation) firstOperation).getSequence().toString();
-			}else{
+			if (firstOperation instanceof InsertOperation) {
+				firstSequence = ((InsertOperation) firstOperation)
+						.getSequence().toString();
+			} else {
 				throw new P2Exception("First command must be an insert.");
 			}
 		}
@@ -139,7 +141,8 @@ public class CommandFile {
 	}
 
 	/**
-	 * @param commandFilePath the commandFilePath to set
+	 * @param commandFilePath
+	 *            the commandFilePath to set
 	 */
 	public void setCommandFilePath(String commandFilePath) {
 		this.commandFilePath = commandFilePath;
@@ -153,12 +156,13 @@ public class CommandFile {
 	}
 
 	/**
-	 * @param commandList the commandList to set
+	 * @param commandList
+	 *            the commandList to set
 	 */
 	public void setCommandList(Queue<Operation> commandList) {
 		this.commandList = commandList;
 	}
-	
+
 	/**
 	 * @return the firstSequence
 	 */
@@ -167,30 +171,10 @@ public class CommandFile {
 	}
 
 	/**
-	 * @param firstSequence the firstSequence to set
+	 * @param firstSequence
+	 *            the firstSequence to set
 	 */
 	public void setFirstSequence(String firstSequence) {
 		this.firstSequence = firstSequence;
-	}
-	
-	public static void main(String[] arg) {
-		CommandFile cf = new CommandFile("P2sampleinput.txt");
-		try {
-			cf.parse();
-		} catch (SequenceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (P2Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Tree t = new Tree(cf.getFirstSequence());
-		
-		t.executeOperations(cf.getCommandList());
 	}
 }

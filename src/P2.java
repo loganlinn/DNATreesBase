@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 /**
@@ -65,14 +66,45 @@ public class P2 {
 	 * OS: 			Mac OS X 10.6.6
 	 * 
 	 * Matthew Ibarra
-	 * COMPILER:	TODO: fill out Matt's compiler
-	 * OS:			TODO: fill out Matt's OS
+	 * COMPILER:	Eclipse JDT
+	 * OS:			Mac OS X 10.6.6
 	 * 
 	 * DATE-COMPLETED: 03/16/2010
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		//TODO: get arguments, pass command file path to parser, pass commands to tree
+	public static void main(String[] arg) {
+//		if(arg.length < 1){
+//			System.out.println("usage: P2 <command-file>");
+//			return;
+//		}
+//		String commandFilePath = arg[0];
+		String commandFilePath = "P2sampleinput.txt";
+		CommandFile commandFile = new CommandFile(commandFilePath);
+		/**
+		 * Attempt to parse the command file, catching any errors
+		 */
+		try {
+			commandFile.parse();
+		} catch (SequenceException e) {
+			System.out.println(e.getMessage());
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		} catch (P2Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		
+		/*
+		 * Create tree with the first sequence
+		 */
+		Tree dnaTree = new Tree(commandFile.getFirstSequence());
+		
+		/*
+		 * Execute the remaining commands from the command file
+		 */
+		dnaTree.executeOperations(commandFile.getCommandList());
 	}
 }

@@ -28,27 +28,46 @@ public class InternalNode implements Node {
 			Sequence newSequence) {
 		// get reference to existing node's sequence
 		final Sequence existingSequence = existingSequenceNode.getSequence();
-
-		if (existingSequence.hasNext()) {
-			final char existingSequenceChar = existingSequence.next();
-
-			// Set the appropriate child with the existing node. Give an error
-			// if we are unable to locate child
-			if (!setChild(existingSequenceChar, existingSequenceNode)) {
-				InsertOperation.invalidSequence(existingSequence);
-				return;
-			}
-
-		} else { // Existing sequence must be a prefix
-					// Assumes existingSequence != newSequence
-			$ = existingSequenceNode;
-
+		
+		Sequence first, second;
+		
+		if(existingSequence.length() < newSequence.length()){
+			first = newSequence;
+			second = existingSequence;
+		}else{
+			first = existingSequence;
+			second = newSequence;
 		}
-		// Fill rest of children with flyweight
+		
 		fillEmptyChildren();
-
-		// Insert the new sequence
-		insert(newSequence);
+		insert(first);
+		if(second.hasNext() && second.current() == first.current()){
+			insertPrefix(second);
+		}else{
+			insert(second);
+		}
+		
+//		
+//		if (existingSequence.hasNext()) {
+//			final char existingSequenceChar = existingSequence.next();
+//
+//			// Set the appropriate child with the existing node. Give an error
+//			// if we are unable to locate child
+//			if (!setChild(existingSequenceChar, existingSequenceNode)) {
+//				InsertOperation.invalidSequence(existingSequence);
+//				return;
+//			}
+//
+//		} else { // Existing sequence must be a prefix
+//					// Assumes existingSequence != newSequence
+//			$ = existingSequenceNode;
+//
+//		}
+//		// Fill rest of children with flyweight
+//		fillEmptyChildren();
+//
+//		// Insert the new sequence
+//		insert(newSequence);
 	}
 
 	/**
@@ -151,17 +170,33 @@ public class InternalNode implements Node {
 			final char sequenceChar = sequence.next();
 			// Get the associated child node
 			Node child = getChild(sequenceChar);
-
+			
 			/*
 			 * Determine if we have a prefix sequence
 			 * - Check again (after getting sequenceChar) if sequence has more characters
 			 * - Check if we have other non-empty children that would prevent prefix on this level:
 			 * -- If we have a prefix, but other children, we need to expand by inserting into the SequenceNode
 			 */
-			if (!sequence.hasNext()
-					&& (numNonEmptyLeafChildren() < MIN_NON_EMPTY_LEAF_CHILREN)) {
-				// TODO: Determine if there's a case where we should swap a
-				// currently assigned child with prefix
+
+			/* 
+			 * - If non-empty prefix is longer than sequence: switch
+			 * -- If child is empty: take child
+			 * --- Prefix is empty and no other child exist: take prefix
+			 * ---- then we must, expand
+			 * 
+			 */
+			
+			if(($ instanceof SequenceLeafNode) && ((SequenceLeafNode)$).getSequence().length() > sequence.length()){
+				//swap
+				insertPrefix(sequence);
+			} else if (!(child instanceof EmptyLeafNode)
+					&& (
+							!sequence.hasNext() 
+//							|| ($ instanceof EmptyLeafNode && sequence.isPrefixOf(((SequenceLeafNode)child).getSequence()))
+						)
+					&& (numNonEmptyLeafChildren() < MIN_NON_EMPTY_LEAF_CHILREN)	// has other children (if it does we need to expand)
+					) {
+				// prefix must be empty
 				insertPrefix(sequence);
 			} else {
 				/*
@@ -188,6 +223,35 @@ public class InternalNode implements Node {
 		return this;
 	}
 
+	/**
+	 * Sets the prefix child, $.
+	 * 
+	 * @param sequence
+	 */
+	public void insertPrefix(Sequence sequence) {
+		// Ensure that the prefix is empty
+		if ($ instanceof EmptyLeafNode) {
+			$ = new SequenceLeafNode(sequence);
+		} else if (sequence.equals(((SequenceLeafNode) $).getSequence())){
+			// Prefix isn't empty, this should indicate a duplicate sequence
+			InsertOperation.duplicateSequence(sequence);
+		} else {
+			Sequence oldPrefixSequence = ((SequenceLeafNode) $).getSequence();
+			$ = EmptyLeafNode.getInstance();
+			insert(sequence);
+			insert(oldPrefixSequence);
+		}
+	}
+//	public void insertPrefix(Sequence sequence) {
+//		// Ensure that the prefix is empty
+//		if ($ instanceof EmptyLeafNode) {
+//			$ = new SequenceLeafNode(sequence);
+//		} else {
+//			// Prefix isn't empty, this should indicate a duplicate sequence
+//			InsertOperation.duplicateSequence(sequence);
+//		}
+//	}
+	
 	/**
 	 * 
 	 * @return the Node that should replace this Node OR self to keep the same
@@ -314,21 +378,6 @@ public class InternalNode implements Node {
 	 */
 	private Node[] getChildren() {
 		return new Node[] { A, C, G, T, $ };
-	}
-
-	/**
-	 * Sets the prefix child, $.
-	 * 
-	 * @param sequence
-	 */
-	public void insertPrefix(Sequence sequence) {
-		// Ensure that the prefix is empty
-		if ($ instanceof EmptyLeafNode) {
-			$ = new SequenceLeafNode(sequence);
-		} else {
-			// Prefix isn't empty, this should indicate a duplicate sequence
-			InsertOperation.duplicateSequence(sequence);
-		}
 	}
 
 	/**

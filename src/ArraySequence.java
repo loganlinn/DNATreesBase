@@ -56,7 +56,7 @@ public class ArraySequence implements Sequence{
 		if(!hasNext()){
 			throw new NoSuchElementException();
 		}
-		return characters[position-1];
+		return characters[position];
 	}
 	
 	/**
@@ -150,6 +150,11 @@ public class ArraySequence implements Sequence{
 	 */
 	public char[] getCharacters() {
 		return characters;
+	}
+
+	@Override
+	public boolean isPrefixOf(Sequence otherSequence) {
+		return otherSequence.toString().startsWith(characters.toString());
 	}
 
 }

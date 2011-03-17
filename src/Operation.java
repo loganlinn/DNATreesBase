@@ -31,7 +31,7 @@ public abstract class Operation {
 	protected static Sequence createSequence(String sequenceDescriptor) throws SequenceException{
 		if(sequenceDescriptor == null){
 			throw new SequenceException(sequenceDescriptor);
-		}else if(sequenceDescriptor.matches("![ACGT]")){
+		}else if(!sequenceDescriptor.matches(Sequence.RE_ALPHABET)){
 			throw new SequenceException(sequenceDescriptor);
 		}
 		//TODO: regular expression the sequence descriptor for valid alpahbet
@@ -46,4 +46,5 @@ public abstract class Operation {
 	public static void invalidSequence(Sequence sequence) {
 		out.println("ERROR: Invaid sequence, \""+sequence.toString()+"\".");
 	}
+	
 }
