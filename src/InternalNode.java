@@ -1,6 +1,14 @@
 /**
- * InternalNode
- * 5 children: A, C, G, T, $
+ * InternalNode is a Node with 5 children: A, C, G, T, $
+ * 
+ * This node does not store any data other than references to its children.
+ * 
+ * Child nodes that are empty implement a flyweight design by storing a common
+ * (program wide) reference to an EmptyLeafNode.
+ * 
+ * A prefix to another sequence can be stored in the last child node, $. This
+ * node can only be an EmptyLeafNode or a SequenceLeafNode. An InternalNode on
+ * the prefix is illegal.
  * 
  * @author loganlinn
  * 
@@ -9,13 +17,13 @@ public class InternalNode implements Node {
 	public static final int MIN_NON_EMPTY_LEAF_CHILDREN = 2;
 
 	/*
-	 * Children references
+	 * Children references. These are replaced with a reference to a flyweight
 	 */
-	private Node A = null;
-	private Node C = null;
-	private Node G = null;
-	private Node T = null;
-	private Node $ = null;
+	private Node A;
+	private Node C;
+	private Node G;
+	private Node T;
+	private Node $;
 
 	/**
 	 * Constructs an InternalNode given the SequenceNode to be pushed down and
@@ -36,59 +44,31 @@ public class InternalNode implements Node {
 		G = flyweight;
 		T = flyweight;
 		$ = flyweight;
-		
-		// get reference to existing node's sequence
+
+		/* get reference to existing node's sequence */
 		final Sequence existingSequence = existingSequenceNode.getSequence();
-		
+
 		/*
 		 * Prioritize insert by sequence length
 		 */
 		Sequence first, second;
-		if(existingSequence.length() < newSequence.length()){
+		if (existingSequence.length() < newSequence.length()) {
 			first = newSequence;
 			second = existingSequence;
-		}else{
+		} else {
 			first = existingSequence;
 			second = newSequence;
 		}
-		
-		// Insert longer sequence first
+
+		/* Insert longer sequence first */
 		insert(first);
-		
-		// Check if the shorter sequence is a prefix of the longer
-		if(second.isPrefixOf(first)){
+
+		/* Check if the shorter sequence is a prefix of the longer */
+		if (second.isPrefixOf(first)) {
 			insertPrefix(second);
-		}else{
+		} else {
 			insert(second);
 		}
-	}
-
-	/**
-	 * Sets the appropriate child given a letter of the DNA alphabet. If the
-	 * character isn't valid, returns false NOTE: Character validation should
-	 * happen before getting this far. We could have already modified the tree
-	 * with erronous data
-	 * 
-	 * @param sequenceChar
-	 * @param child
-	 * @return
-	 */
-	public boolean setChild(char sequenceChar, Node child) {
-		switch (sequenceChar) {
-		case 'A':
-			A = child;
-			return true;
-		case 'C':
-			C = child;
-			return true;
-		case 'G':
-			G = child;
-			return true;
-		case 'T':
-			T = child;
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -110,11 +90,16 @@ public class InternalNode implements Node {
 		case 'T':
 			return T;
 		}
-		return null;// This type of error should already be handled
+		/*
+		 * We should not get this far. Indicates an invalid character in
+		 * sequence. This condition is already handled during creation of
+		 * sequence
+		 */
+		return null;
 	}
 
 	/**
-	 * Print with a preorder traversal
+	 * Print the tree recursively with a preorder traversal
 	 */
 	@Override
 	public void print(int level, int mode) {
@@ -142,31 +127,37 @@ public class InternalNode implements Node {
 			// Get the associated child node
 			Node child = getChild(sequenceChar);
 
-			/* Insert attempts to accomplish:
-			 * - If non-empty prefix is longer than sequence: switch
-			 * -- If child is empty: take child
-			 * --- Prefix is empty and no other child exist: take prefix
-			 * ---- then we must, expand
-			 * 
+			/*
+			 * Insert attempts to accomplish: - If non-empty prefix is longer
+			 * than sequence: switch -- If child is empty: take child --- Prefix
+			 * is empty and no other child exist: take prefix ---- then we must,
+			 * expand
 			 */
-			if(($ instanceof SequenceLeafNode) 
-					&& ((SequenceLeafNode)$).getSequence().length() > sequence.length()
-					&& sequence.isPrefixOf(((SequenceLeafNode)$).getSequence())
-				){
+			if (($ instanceof SequenceLeafNode)
+					&& ((SequenceLeafNode) $).getSequence().length() > sequence
+							.length()
+					&& sequence
+							.isPrefixOf(((SequenceLeafNode) $).getSequence())) {
 				// Swap with prefix
 				insert(swapPrefix(sequence));
 			} else if ( /* Check if we have a prefix */
-					!sequence.hasNext()	// Check again (after getting sequenceChar) if sequence has more characters
-					&& (child instanceof SequenceLeafNode)	// Make sure child isn't empty
-					&& (numNonEmptyLeafChildren() < MIN_NON_EMPTY_LEAF_CHILDREN) // doesn't has other children
-					) {
+			!sequence.hasNext() // Check again (after getting sequenceChar) if
+								// sequence has more characters
+					&& (child instanceof SequenceLeafNode) // Make sure child
+															// isn't empty
+					&& (numNonEmptyLeafChildren() < MIN_NON_EMPTY_LEAF_CHILDREN) // doesn't
+																					// has
+																					// other
+																					// children
+			) {
 				insertPrefix(sequence);
 			} else { /* Otherwise insert into respective child */
 				/*
-				 * Assign the child to the result of inserting into it: 
-				 * - If child is SequenceNode, insert will return the replacement InternalNode
-				 * - If child is Flyweight, insert will return new SequenceNode
-				 * - If child is InternalNode, insert will return the same InternalNode
+				 * Assign the child to the result of inserting into it: - If
+				 * child is SequenceNode, insert will return the replacement
+				 * InternalNode - If child is Flyweight, insert will return new
+				 * SequenceNode - If child is InternalNode, insert will return
+				 * the same InternalNode
 				 */
 				setChild(sequenceChar, child.insert(sequence));
 			}
@@ -175,24 +166,26 @@ public class InternalNode implements Node {
 			// of parent
 			insertPrefix(sequence);
 		}
-		
+
 		// InternalNode don't move during insert, so return this
 		return this;
 	}
-	
+
 	/**
-	 * Assigns prefix to a new sequence and returns the current sequence
-	 * This can only be called when prefix node is confirmed to be a SequenceNode
+	 * Assigns prefix to a new sequence and returns the current sequence.
+	 * 
+	 * NOTE: This can only be called when prefix node is confirmed to be a
+	 * SequenceNode
 	 * 
 	 * @param newPrefixSequence
 	 * @return
 	 */
-	private Sequence swapPrefix(Sequence newPrefixSequence){
-			Sequence oldPrefix = ((SequenceLeafNode) $).getSequence();
-			((SequenceLeafNode) $).setSequence(newPrefixSequence);
-			return oldPrefix;
+	private Sequence swapPrefix(Sequence newPrefixSequence) {
+		Sequence oldPrefix = ((SequenceLeafNode) $).getSequence();
+		((SequenceLeafNode) $).setSequence(newPrefixSequence);
+		return oldPrefix;
 	}
-	
+
 	/**
 	 * Sets the prefix child, $.
 	 * 
@@ -202,20 +195,28 @@ public class InternalNode implements Node {
 		// Ensure that the prefix is empty
 		if ($ instanceof EmptyLeafNode) {
 			$ = $.insert(sequence);
-		} else if (sequence.equals(((SequenceLeafNode) $).getSequence())){ // Prefix node isn't empty, it must be a SequenceNode
-			// Prefix isn't empty, this should indicate a duplicate sequence
+		} else if (sequence.equals(((SequenceLeafNode) $).getSequence())) {
+			/*
+			 * Prefix isn't empty. Assert that we do not have duplicate
+			 * sequences.
+			 */
+			/*
+			 * We can assume the prefix is a SequenceLeafNode because it is not
+			 * empty and cannot be internal
+			 */
 			InsertCommand.duplicateSequence(sequence);
 		} else {
 			/*
-			 * Prefix node isn't empty and isn't duplicate, 
-			 * assign sequence to the prefix Node, and re-insert the old sequence
+			 * Prefix node isn't empty and isn't duplicate, assign sequence to
+			 * the prefix Node, and re-insert the old sequence
 			 */
 			insert(swapPrefix(sequence));
 		}
 	}
-	
+
 	/**
 	 * Remove a sequence from an InternalNode's child
+	 * 
 	 * @return the Node that should replace this Node OR self to keep the same
 	 */
 	@Override
@@ -258,7 +259,7 @@ public class InternalNode implements Node {
 				}
 			}
 		}
-		
+
 		/*
 		 * If we havn't returned: - We are going to collapse - collapsible is a
 		 * SequenceLeafNode Move the pointer in the sequence back so comparisons
@@ -267,27 +268,30 @@ public class InternalNode implements Node {
 		((SequenceLeafNode) collapsible).getSequence().prev();
 		return collapsible;
 	}
-	
+
 	/**
 	 * Search for a sequence in this InternalNode's children
+	 * 
+	 * Finds the appropriate child to traverse (search) given the search
+	 * sequence.
 	 */
 	@Override
 	public void search(SearchCommand searchData) {
-		// Count this node as visisted
+		/* Count this node as visited */
 		searchData.incrementNodesVisited();
 
 		final Sequence searchSequence = searchData.getSearchSequence();
 
-		// Check if we have seen all of the characters in the searchSequence
+		/* Check if we have seen all of the characters in the searchSequence */
 		if (searchSequence.hasNext()) {
 			/*
 			 * We have not gone down far enough to determine if we have matches,
 			 * continue search into tree
 			 */
 			final char currentSearchChar = searchSequence.next();
-			// Get the corresponding child node
+			/* Get the corresponding child node */
 			Node child = getChild(currentSearchChar);
-			// Call search on child
+			/* Call search on child */
 			child.search(searchData);
 		} else if (searchData.matchExact()) {
 			/*
@@ -298,8 +302,7 @@ public class InternalNode implements Node {
 			$.search(searchData);
 		} else {
 			/*
-			 * searchSequence.hasNext()==false AND we aren't finding exact match
-			 * This means we have traversed down the the search path, so all
+			 * We have traversed down the the search path, so all
 			 * non-empty leaf-nodes must be matches (searchSequence is a prefix
 			 * to everything below)
 			 */
@@ -307,8 +310,36 @@ public class InternalNode implements Node {
 			C.search(searchData);
 			G.search(searchData);
 			T.search(searchData);
-			$.search(searchData); // search the prefix too
+			$.search(searchData); /* search the prefix too */
 		}
+	}
+
+	/**
+	 * Sets the appropriate child given a letter of the DNA alphabet. If the
+	 * character isn't valid, returns false NOTE: Character validation should
+	 * happen before getting this far. We could have already modified the tree
+	 * with erroneous data
+	 * 
+	 * @param sequenceChar
+	 * @param child
+	 * @return
+	 */
+	public boolean setChild(char sequenceChar, Node child) {
+		switch (sequenceChar) {
+		case 'A':
+			A = child;
+			return true;
+		case 'C':
+			C = child;
+			return true;
+		case 'G':
+			G = child;
+			return true;
+		case 'T':
+			T = child;
+			return true;
+		}
+		return false;
 	}
 
 	/**

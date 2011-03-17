@@ -1,9 +1,9 @@
 import java.io.PrintStream;
 
 /**
- * TreeOperation 
+ * Command 
  * - Encapsulates DNA tree operations extracted from a command file
- * - Enables us to represent a command file as a queue of TreeOperations 
+ * - Enables us to represent a command file as a queue of Commands 
  * 
  * @author loganlinn
  *

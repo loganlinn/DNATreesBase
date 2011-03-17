@@ -1,5 +1,5 @@
 /**
- * Flyweight represents a leaf node. Singleton pattern is used for a single
+ * EmptyLeafNode represents a leaf node with any data. Singleton pattern is used for a single
  * flyweight object is used for all empty leaf nodes in the tree.
  * 
  * @author loganlinn
@@ -23,24 +23,18 @@ public class EmptyLeafNode implements Node {
 	}
 
 	/**
-	 * Factory method to access new/reused SequenceNode
-	 * 
-	 * @return
-	 */
-	// public static LeafNode getNonEmptyLeafNode(Sequence s){
-	// return new SequenceNode(s);
-	// }
-
-	/**
 	 * Constructs a Flyweight Private constructor for Singleton pattern. Can
 	 * only be instantiated internally
 	 * 
 	 * @see EmptyLeafNode#getInstance()
 	 */
 	private EmptyLeafNode() {
-
+		// empty constructor
 	}
 
+	/**
+	 * Print representation of empty leaf node
+	 */
 	@Override
 	public void print(int level, int mode) {
 		PrintCommand.printEmptyLeafNode(level);
