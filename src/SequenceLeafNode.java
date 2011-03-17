@@ -110,7 +110,9 @@ public class SequenceLeafNode implements Node {
 	public void setSequence(Sequence sequence) {
 		this.sequence = sequence;
 	}
-
+	/**
+	 * @return the sequence as a String
+	 */
 	@Override
 	public String toString() {
 		return sequence.toString();

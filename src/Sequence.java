@@ -6,6 +6,7 @@ import java.util.Map;
  * interact with a DNA sequence regardless of how it is implemented (linked-list, char array, etc)
  * 
  * @author loganlinn
+ * @author matthewibarra
  * 
  */
 public interface Sequence {
