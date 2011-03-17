@@ -3,7 +3,7 @@
  * @author loganlinn
  *
  */
-public class PrintOperation extends Operation{
+public class PrintCommand extends Command{
 	private static final int ROOT_LEVEL = 0;			// First level to pass the root during print
 	public static final String LEVEL_INDENT = "  ";		// Value to print for indentations
 	public static final String INTERNAL_NODE = "I";		// Value to print for internal node
@@ -17,7 +17,7 @@ public class PrintOperation extends Operation{
 	/**
 	 * Constructs a normal PrintOperation
 	 */
-	public PrintOperation(){
+	public PrintCommand(){
 
 	}
 	
@@ -63,9 +63,9 @@ public class PrintOperation extends Operation{
 	protected static void indentedPrint(int level, String value){
 		// Print the indents
 		for(int i = 0; i < level; i++){
-			PrintOperation.out.print(LEVEL_INDENT);
+			PrintCommand.out.print(LEVEL_INDENT);
 		}
 		// Print the value
-		PrintOperation.out.println(value);
+		PrintCommand.out.println(value);
 	}
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * @author loganlinn
  * 
  */
-public class SearchOperation extends Operation {	
+public class SearchCommand extends Command {	
 	public static final int SEARCH_MODE_EXACT = 1;
 	public static final int SEARCH_MODE_PREFIX = 0;
 	private static final String EMPTY_MATCHES_MESSAGE = "no sequence founds";
@@ -30,7 +30,7 @@ public class SearchOperation extends Operation {
 	 * @param sequenceDescriptor
 	 * @throws SequenceException 
 	 */
-	public SearchOperation(String sequenceDescriptor) throws SequenceException {
+	public SearchCommand(String sequenceDescriptor) throws SequenceException {
 		searchSequence = createSequence(sequenceDescriptor);
 	}
 

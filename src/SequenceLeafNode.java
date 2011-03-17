@@ -23,13 +23,13 @@ public class SequenceLeafNode implements Node {
 	public void print(int level, int mode) {
 		String sequenceValue = sequence.toString();
 
-		if (mode == PrintOperation.PRINT_MODE_LENGTHS) {
+		if (mode == PrintCommand.PRINT_MODE_LENGTHS) {
 			sequenceValue += ": length " + sequence.length();
-		} else if (mode == PrintOperation.PRINT_MODE_STATS) {
+		} else if (mode == PrintCommand.PRINT_MODE_STATS) {
 			sequenceValue += ": " + sequence.stats();
 		}
 
-		PrintOperation.printSequenceLeafNode(level, sequenceValue);
+		PrintCommand.printSequenceLeafNode(level, sequenceValue);
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class SequenceLeafNode implements Node {
 		// sequences here
 		if (this.sequence.equals(sequence)) {
 			// Otherwise, we must have the identical sequence
-			InsertOperation.duplicateSequence(sequence);
+			InsertCommand.duplicateSequence(sequence);
 			// Return this so not modify tree structure
 			return this;
 		} else {
@@ -72,7 +72,7 @@ public class SequenceLeafNode implements Node {
 		if (this.sequence.equals(sequence)) {
 			return EmptyLeafNode.getInstance();
 		} else {
-			RemoveOperation.sequenceNotFound(sequence);
+			RemoveCommand.sequenceNotFound(sequence);
 			return this;
 		}
 	}
@@ -82,7 +82,7 @@ public class SequenceLeafNode implements Node {
 	 * either a normal or strict search
 	 */
 	@Override
-	public void search(SearchOperation searchData) {
+	public void search(SearchCommand searchData) {
 		searchData.incrementNodesVisited();
 		if (searchData.matchExact() && this.sequence.equals(searchData.getSearchSequence())) {
 			// If we are in strict mode, and sequences match exactly, we can add the match

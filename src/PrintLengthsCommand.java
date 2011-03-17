@@ -4,11 +4,11 @@
  * @author loganlinn
  *
  */
-public class PrintLengthsOperation extends PrintOperation{
+public class PrintLengthsCommand extends PrintCommand{
 	/*
 	 * Change the mode property to print in lengths mode
 	 */
-	public PrintLengthsOperation(){
+	public PrintLengthsCommand(){
 		this.mode = PRINT_MODE_LENGTHS;
 	}
 }

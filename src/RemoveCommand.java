@@ -3,7 +3,7 @@
  * @author loganlinn
  *
  */
-public class RemoveOperation extends Operation {
+public class RemoveCommand extends Command {
 	private Sequence sequence;
 	
 	/**
@@ -11,7 +11,7 @@ public class RemoveOperation extends Operation {
 	 * @param sequenceDescriptor
 	 * @throws SequenceException 
 	 */
-	public RemoveOperation(String sequenceDescriptor) throws SequenceException{
+	public RemoveCommand(String sequenceDescriptor) throws SequenceException{
 		sequence = createSequence(sequenceDescriptor);
 	}
 	

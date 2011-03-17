@@ -1,13 +1,21 @@
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.NoSuchElementException;
 
+/**
+ * ArraySequence implements the Sequence interface by storing sequence
+ * characters in a character array. Sequence characters are examined
+ * sequentially to help determine where in the tree the sequence should be
+ * stored.
+ * 
+ * @author loganlinn
+ * 
+ */
+public class ArraySequence implements Sequence {
+	private int position = 0; // Stores the index of the next unseen character
+								// in sequence
+	private final char[] characters; // Sequence characters
 
-public class ArraySequence implements Sequence{
-	private int position = 0;			// Stores the index of the next unseen character in sequence
-	private final char[] characters;	// Sequence characters
-	
 	/**
 	 * Constructs a sequence given a string of sequence characters
 	 * 
@@ -17,65 +25,75 @@ public class ArraySequence implements Sequence{
 		characters = sequenceInput.toCharArray();
 	}
 	
+	/**
+	 * Generates a report character representation in sequence. This method is used using executing the print stats command.
+	 */
 	@Override
 	public String stats() {
-		
+
 		char[] alphabet = Sequence.ALPHABET;
-		double[] averages = new double[alphabet.length];	// we can assume values are initialized to 0
-		
+		double[] averages = new double[alphabet.length]; // we can assume values
+															// are initialized
+															// to 0
+
 		// Count the number of times each character of the alphabet appears
-		for(char c : characters){
-			for(int i = 0; i < alphabet.length; i++){
-				if(alphabet[i] == c){
-					averages[i]++;	// increment the sum
-					break;		// we have found a match, no need to compare rest of characters in alphabet
+		for (char c : characters) {
+			for (int i = 0; i < alphabet.length; i++) {
+				if (alphabet[i] == c) {
+					averages[i]++; // increment the sum
+					break; // we have found a match, no need to compare rest of
+							// characters in alphabet
 				}
 			}
 		}
 		// Divide the sums by total to get the average
 		int totalCharacters = characters.length;
-		for(int i = 0; i < averages.length; i++){
+		for (int i = 0; i < averages.length; i++) {
 			averages[i] = (averages[i] / totalCharacters) * 100;
 		}
-		
+
 		// Create format string
 		NumberFormat formatter = new DecimalFormat("0.00");
 		String formattedStrings = "", delimiter = ", ";
-		for(int i = 0; i < alphabet.length; i++){
-			formattedStrings += alphabet[i]+ "(" + formatter.format(averages[i]) + ")"+delimiter;
+		for (int i = 0; i < alphabet.length; i++) {
+			formattedStrings += alphabet[i] + "("
+					+ formatter.format(averages[i]) + ")" + delimiter;
 		}
-		
-		return formattedStrings.substring(0, formattedStrings.length() - delimiter.length());
+
+		return formattedStrings.substring(0, formattedStrings.length()
+				- delimiter.length());
 	}
-	
+
 	/**
 	 * Returns character at current position
 	 */
 	@Override
-	public char current(){
-		if(!hasNext()){
+	public char current() {
+		if (!hasNext()) {
 			throw new NoSuchElementException();
 		}
 		return characters[position];
 	}
-	
+
 	/**
 	 * Gets next character in sequence
+	 * 
 	 * @return
 	 */
-	public char next(){
-		if(!hasNext()){
+	public char next() {
+		if (!hasNext()) {
 			throw new NoSuchElementException();
 		}
 		return characters[position++];
 	}
-	
+
 	/**
-	 * Moves the position back one character. Used when a SequenceNode moves up an level when deleting a sequence.
+	 * Moves the position back one character. Used when a SequenceNode moves up
+	 * an level when deleting a sequence.
 	 */
 	@Override
 	public char prev() {
-		if(!hasPrev()){
+		if (!hasPrev()) {
 			throw new NoSuchElementException();
 		}
 		return characters[--position];
@@ -83,44 +101,47 @@ public class ArraySequence implements Sequence{
 
 	/**
 	 * Returns true if has characters in sequence have not been seen
+	 * 
 	 * @return
 	 */
-	public boolean hasNext(){
+	public boolean hasNext() {
 		return (position < characters.length);
 	}
-	
+
 	/**
 	 * Returns true if sequence can move back one position
 	 */
 	@Override
-	public boolean hasPrev(){
+	public boolean hasPrev() {
 		return position > 0;
 	}
-	
+
 	/**
 	 * Returns the length of the sequence
+	 * 
 	 * @return
 	 */
 	@Override
-	public int length(){
+	public int length() {
 		return characters.length;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString() { 
+	public String toString() {
 		return new String(characters);
 	}
 
-
 	/**
-	 * Compare with another Sequence 
+	 * Compare with another Sequence
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Sequence){
+		if (obj instanceof Sequence) {
 			return (this.toString().equals(((Sequence) obj).toString()));
 		}
 		return super.equals(obj);
@@ -134,7 +155,8 @@ public class ArraySequence implements Sequence{
 	}
 
 	/**
-	 * @param position the position to set
+	 * @param position
+	 *            the position to set
 	 */
 	public void setPosition(int position) {
 		this.position = position;

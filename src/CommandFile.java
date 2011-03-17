@@ -29,7 +29,7 @@ public class CommandFile {
 	private static final String PRINT_STATS_ARGUMENT = "stats";
 	private static final String SEARCH_EXACT_SUFFIX = "$";
 	private String commandFilePath;
-	private Queue<Operation> commandList;
+	private Queue<Command> commandList;
 	private String firstSequence;
 
 	/**
@@ -62,7 +62,7 @@ public class CommandFile {
 	 * @throws P2Exception
 	 */
 	public void parse() throws SequenceException, IOException, P2Exception {
-		commandList = new LinkedList<Operation>();
+		commandList = new LinkedList<Command>();
 
 		File commandFile = new File(this.commandFilePath);
 		FileInputStream fileStream;
@@ -81,13 +81,13 @@ public class CommandFile {
 					 * Insert command
 					 */
 					argument = getNextArgument(lineTokens);
-					commandList.add(new InsertOperation(argument));
+					commandList.add(new InsertCommand(argument));
 				} else if (REMOVE_COMMAND.equals(command)) {
 					/*
 					 * Remove command
 					 */
 					argument = getNextArgument(lineTokens);
-					commandList.add(new RemoveOperation(argument));
+					commandList.add(new RemoveCommand(argument));
 				} else if (PRINT_COMMAND.equals(command)) {
 					/*
 					 * Print command, find the mode
@@ -95,13 +95,13 @@ public class CommandFile {
 					argument = getNextArgument(lineTokens);
 					if (argument == null) {
 						// regular print command
-						commandList.add(new PrintOperation());
+						commandList.add(new PrintCommand());
 					} else if (PRINT_LENGTHS_ARGUMENT.equals(argument)) {
 						// print lengths command
-						commandList.add(new PrintLengthsOperation());
+						commandList.add(new PrintLengthsCommand());
 					} else if (PRINT_STATS_ARGUMENT.equals(argument)) {
 						// print stats command
-						commandList.add(new PrintStatsOperation());
+						commandList.add(new PrintStatsCommand());
 					} else {
 						throw new P2Exception("Unknown print command");
 					}
@@ -110,10 +110,10 @@ public class CommandFile {
 					// Check the sequenceDescriptor if it has a $ suffix
 					if (argument != null) {
 						if (argument.endsWith(SEARCH_EXACT_SUFFIX)) {
-							commandList.add(new ExactSearchOperation(argument
+							commandList.add(new ExactSearchCommand(argument
 									.substring(0, argument.length() - 2)));
 						} else {
-							commandList.add(new SearchOperation(argument));
+							commandList.add(new SearchCommand(argument));
 						}
 					}
 				} else {
@@ -123,9 +123,9 @@ public class CommandFile {
 			}
 		}
 		if (!commandList.isEmpty()) {
-			Operation firstOperation = commandList.remove();
-			if (firstOperation instanceof InsertOperation) {
-				firstSequence = ((InsertOperation) firstOperation)
+			Command firstOperation = commandList.remove();
+			if (firstOperation instanceof InsertCommand) {
+				firstSequence = ((InsertCommand) firstOperation)
 						.getSequence().toString();
 			} else {
 				throw new P2Exception("First command must be an insert.");
@@ -151,7 +151,7 @@ public class CommandFile {
 	/**
 	 * @return the commandList
 	 */
-	public Queue<Operation> getCommandList() {
+	public Queue<Command> getCommandList() {
 		return commandList;
 	}
 
@@ -159,7 +159,7 @@ public class CommandFile {
 	 * @param commandList
 	 *            the commandList to set
 	 */
-	public void setCommandList(Queue<Operation> commandList) {
+	public void setCommandList(Queue<Command> commandList) {
 		this.commandList = commandList;
 	}
 

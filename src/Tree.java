@@ -27,13 +27,13 @@ public class Tree{
 	 * Executes a queue of Operation objects
 	 * @param operations
 	 */
-	public void executeOperations(Queue<Operation> operations){
+	public void executeOperations(Queue<Command> operations){
 		// Require that operations isn't null and has Operations
 		if(operations == null || operations.size() < 1){
 			return;
 		}
 		// Iterate over all operations and call the execute method
-		for(Operation operation : operations){
+		for(Command operation : operations){
 			root = operation.execute(root);
 		}
 	}

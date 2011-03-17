@@ -3,7 +3,7 @@
  * @author loganlinn
  *
  */
-public class ExactSearchOperation extends SearchOperation {
+public class ExactSearchCommand extends SearchCommand {
 	private int mode = SEARCH_MODE_EXACT; // Override the default search mode with exact mode
 	
 	/**
@@ -11,7 +11,7 @@ public class ExactSearchOperation extends SearchOperation {
 	 * @param sequenceDescriptor
 	 * @throws SequenceException 
 	 */
-	public ExactSearchOperation(String sequenceDescriptor) throws SequenceException{
+	public ExactSearchCommand(String sequenceDescriptor) throws SequenceException{
 		super(sequenceDescriptor);
 	}
 }

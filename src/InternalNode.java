@@ -119,7 +119,7 @@ public class InternalNode implements Node {
 	@Override
 	public void print(int level, int mode) {
 		// Visit self
-		PrintOperation.printInternalNode(level);
+		PrintCommand.printInternalNode(level);
 		// Visit children left to right: indent
 		level++;
 		A.print(level, mode);
@@ -204,7 +204,7 @@ public class InternalNode implements Node {
 			$ = $.insert(sequence);
 		} else if (sequence.equals(((SequenceLeafNode) $).getSequence())){ // Prefix node isn't empty, it must be a SequenceNode
 			// Prefix isn't empty, this should indicate a duplicate sequence
-			InsertOperation.duplicateSequence(sequence);
+			InsertCommand.duplicateSequence(sequence);
 		} else {
 			/*
 			 * Prefix node isn't empty and isn't duplicate, 
@@ -272,7 +272,7 @@ public class InternalNode implements Node {
 	 * Search for a sequence in this InternalNode's children
 	 */
 	@Override
-	public void search(SearchOperation searchData) {
+	public void search(SearchCommand searchData) {
 		// Count this node as visisted
 		searchData.incrementNodesVisited();
 

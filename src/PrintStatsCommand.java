@@ -4,11 +4,11 @@
  * @author loganlinn
  *
  */
-public class PrintStatsOperation extends PrintOperation{
+public class PrintStatsCommand extends PrintCommand{
 	/*
 	 * Change the mode property to print in stats mode
 	 */
-	public PrintStatsOperation(){
+	public PrintStatsCommand(){
 		this.mode = PRINT_MODE_STATS;
 	}
 	

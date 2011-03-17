@@ -8,7 +8,7 @@ import java.io.PrintStream;
  * @author loganlinn
  *
  */
-public abstract class Operation {
+public abstract class Command {
 	
 	/*
 	 * Defines a common stream to print messages to (standard output)

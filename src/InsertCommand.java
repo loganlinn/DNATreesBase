@@ -3,7 +3,7 @@
  * @author loganlinn
  *
  */
-public class InsertOperation extends Operation{
+public class InsertCommand extends Command{
 	private Sequence sequence;
 	
 	/**
@@ -11,7 +11,7 @@ public class InsertOperation extends Operation{
 	 * @param sequenceDescriptor
 	 * @throws SequenceException 
 	 */
-	public InsertOperation(String sequenceDescriptor) throws SequenceException{
+	public InsertCommand(String sequenceDescriptor) throws SequenceException{
 		sequence = createSequence(sequenceDescriptor);
 	}
 	

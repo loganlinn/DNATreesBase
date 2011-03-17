@@ -43,7 +43,7 @@ public class EmptyLeafNode implements Node {
 
 	@Override
 	public void print(int level, int mode) {
-		PrintOperation.printEmptyLeafNode(level);
+		PrintCommand.printEmptyLeafNode(level);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class EmptyLeafNode implements Node {
 	 */
 	@Override
 	public Node remove(Sequence sequence) {
-		RemoveOperation.sequenceNotFound(sequence);
+		RemoveCommand.sequenceNotFound(sequence);
 		return this;
 	}
 
@@ -74,7 +74,7 @@ public class EmptyLeafNode implements Node {
 	 * nodes visited
 	 */
 	@Override
-	public void search(SearchOperation searchData) {
+	public void search(SearchCommand searchData) {
 		searchData.incrementNodesVisited();
 	}
 }
