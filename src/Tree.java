@@ -4,7 +4,10 @@ import java.util.Queue;
 /**
  * 
  * @author loganlinn
- *
+ * @author matthewibarra
+ * 
+ * This is the Tree class.
+ * This class is where the DNA Tree is created in the constructor of the class which creates the root node as a new SequenceLeafNode object.
  */
 public class Tree{
 	private Node root = null;	// Root of tree
